@@ -1,0 +1,188 @@
+@extends('cms.parent')
+
+@section('title','Create Product')
+@section('main-title','Products')
+@section('sub-title','Create')
+
+@section('styles')
+<style>
+  :root{
+    --glow-pink:#c97c9d;
+    --glow-pink-dark:#b46888;
+    --soft-bg:#faf6f8;
+    --soft-line: rgba(0,0,0,.08);
+  }
+
+  .card-shift{
+    margin-left: 0.5cm;
+    margin-right: 0.5cm;
+  }
+  @media (max-width:768px){
+    .card-shift{ margin-left:12px; margin-right:12px; }
+  }
+
+  .btn-glow-pink{
+    background-color:var(--glow-pink);
+    border-color:var(--glow-pink);
+    color:#fff;
+    border-radius: 10px;
+    font-weight: 600;
+    padding: .55rem 1rem;
+  }
+  .btn-glow-pink:hover{
+    background-color:var(--glow-pink-dark);
+    border-color:var(--glow-pink-dark);
+    color:#fff;
+  }
+
+  .hint-box{
+    background: var(--soft-bg);
+    border: 1px solid rgba(201,124,157,.25);
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #5b5b5b;
+    font-size: .92rem;
+  }
+
+  .form-control{
+    border-radius: 12px;
+  }
+  .form-control:focus{
+    border-color: rgba(201,124,157,.6);
+    box-shadow: 0 0 0 .2rem rgba(201,124,157,.18);
+  }
+
+  .icon-circle{
+    width: 38px; height: 38px;
+    border-radius: 999px;
+    background: rgba(201,124,157,.16);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: var(--glow-pink-dark);
+  }
+
+  textarea.form-control{
+    min-height: 120px;
+    resize: vertical;
+  }
+</style>
+@endsection
+
+@section('content')
+<div class="container-fluid">
+
+  <div class="card card-outline card-shift" style="border-top:3px solid var(--glow-pink);">
+    <div class="card-header">
+      <div class="d-flex align-items-center" style="gap:10px;">
+        <div class="icon-circle">
+          <i class="fas fa-box-open"></i>
+        </div>
+        <div>
+          <h3 class="card-title mb-0" style="font-weight:700;">Add New Product</h3>
+          <small class="text-muted">Create a new product</small>
+        </div>
+      </div>
+    </div>
+
+    <form method="POST" action="{{ route('cms.products.store') }}" enctype="multipart/form-data">
+      @csrf
+
+      <div class="card-body">
+        <div class="hint-box mb-3">
+          <strong>Tip:</strong> Add a clear product name, choose the correct category and brand,
+          then enter the price and upload an image if available.
+        </div>
+
+        <div class="form-group">
+          <label for="product_name" style="font-weight:600;">Product Name</label>
+          <input type="text" id="product_name" name="product_name" class="form-control >
+          <small class="text-muted">Max 100 characters.</small>
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="product_description" style="font-weight:600;">Product Description</label>
+          <textarea id="product_description" name="product_description" class="form-control" placeholder="Write a short description for the product..."></textarea>
+        </div>
+
+        <div class="form-row mt-3">
+          <div class="form-group col-md-6">
+            <label for="price" style="font-weight:600;">Price</label>
+            <input type="number" step="0.01" min="0" id="price" name="price" class="form-control" placeholder="e.g. 49.99">
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="is_active" style="font-weight:600;">Status</label>
+            <select id="is_active" name="is_active" class="form-control">
+              <option value="1" >Active</option>
+              <option value="0" >Inactive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row mt-3">
+          <div class="form-group col-md-6">
+            <label for="category_id" style="font-weight:600;">Category Name</label>
+            <select id="category_id" name="category_id" class="form-control">
+              <option value="">Select Category</option>
+              @foreach($categories as $category)
+                <option value="{{ $category->id }}"}} >
+                  {{ $category->category_name }}
+                </option>
+              @endforeach
+            </select>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label for="brand_id" style="font-weight:600;">Brand Name</label>
+            <select id="brand_id" name="brand_id" class="form-control">
+              <option value="">Select Brand</option>
+              @foreach($brands as $brand)
+                <option value="{{ $brand->id }}">{{ $brand->brand_name }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group mt-3">
+          <label for="image_path" style="font-weight:600;">Product Image</label>
+          <input type="file" id="image_path" name="image_path" class="form-control">
+          <small class="text-muted">JPG/PNG/WebP — Max 2MB.</small>
+        </div>
+      </div>
+
+      <div class="card-footer d-flex justify-content-between align-items-center">
+        <a href="{{ route('cms.products.index') }}" class="btn btn-light" style="border:1px solid var(--soft-line); border-radius:10px;">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+        <button type="button" onclick="performStore()" class="btn btn-glow-pink">
+          <i class="fas fa-save"></i> Save
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>
+@endsection
+
+@section('scripts')
+<script>
+    function performStore(){
+        let formData = new FormData();
+
+        formData.append('product_name', document.getElementById('product_name').value);
+        formData.append('product_description', document.getElementById('product_description').value);
+        formData.append('price', document.getElementById('price').value);
+        formData.append('is_active', document.getElementById('is_active').value);
+        formData.append('category_id', document.getElementById('category_id').value);
+        formData.append('brand_id', document.getElementById('brand_id').value);
+
+        let img = document.getElementById('image_path');
+        if (img && img.files && img.files.length > 0) {
+            formData.append('image_path', img.files[0]);
+        }
+
+        store('/cms/admin/products', formData)
+    }
+</script>
+@endsection
