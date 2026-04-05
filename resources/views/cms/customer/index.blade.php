@@ -1,7 +1,7 @@
 @extends('cms.parent')
 
-@section('title','Categories')
-@section('main-title','Categories')
+@section('title','Customers')
+@section('main-title','Customers')
 @section('sub-title','Index')
 
 @section('styles')
@@ -44,14 +44,13 @@
   .table td, .table th{ vertical-align: middle; }
   .table-hover tbody tr:hover{ background: var(--soft-hover); }
 
-    .table thead th:nth-child(1), .table tbody td:nth-child(1),
-    .table thead th:nth-child(2), .table tbody td:nth-child(2),
-    .table thead th:nth-child(3), .table tbody td:nth-child(3),
-    .table thead th:nth-child(4), .table tbody td:nth-child(4){
+  .table thead th:nth-child(1), .table tbody td:nth-child(1),
+  .table thead th:nth-child(2), .table tbody td:nth-child(2),
+  .table thead th:nth-child(3), .table tbody td:nth-child(3){
     border-right: 1px solid var(--soft-line);
-    }
+  }
 
-  .cat-name{ font-weight: 600; color: #111; }
+  .customer-email{ font-weight: 600; color: #111; }
 
   .action-btn{
     width: 34px; height: 34px; padding: 0;
@@ -86,30 +85,15 @@
   .pagination .page-link:focus{ box-shadow: none; }
   .pagination .page-item.disabled .page-link{ color: #aaa; }
 
-  .cat-thumb{
-    width: 70px;
-    height: 45px;
-    border-radius: 10px;
-    object-fit: cover;
-    border: 1px solid rgba(0,0,0,.08);
-    background: #fff;
+  .email-badge{
+    background: rgba(201,124,157,.12);
+    color: var(--glow-pink-dark);
+    border: 1px solid rgba(201,124,157,.18);
+    padding: .4rem .7rem;
+    border-radius: 999px;
+    font-size: .82rem;
+    font-weight: 600;
   }
-  .cat-thumb-placeholder{
-    width: 70px;
-    height: 45px;
-    border-radius: 10px;
-    border: 1px dashed rgba(0,0,0,.15);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#999;
-    font-size: 12px;
-    background:#fff;
-  }
-  .bg-glow-pink{
-  background-color:#c97c9d;
-  color:#fff;
-}
 </style>
 @endsection
 
@@ -119,21 +103,22 @@
     <div class="card-header">
       <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div>
-          <h3 class="card-title mb-0">Categories</h3>
+          <h3 class="card-title mb-0">Customers</h3>
         </div>
 
         <div class="d-flex align-items-center" style="gap:10px;">
           <div class="input-group input-group-sm" style="width: 240px;">
-            <input id="catSearch" type="text" class="form-control" placeholder="Search category...">
+            <input id="customerSearch" type="text" class="form-control" placeholder="Search customer...">
             <div class="input-group-append">
               <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
           </div>
 
-          <a href="{{ route('cms.categories.create') }}" class="btn btn-glow-pink btn-sm">
-            <i class="fas fa-plus"></i> Add new category
+          <a href="{{ route('cms.customers.create') }}" class="btn btn-glow-pink btn-sm">
+            <i class="fas fa-plus"></i> Add new customer
           </a>
-          <a href="{{ route('cms.categories_trashed') }}" class="btn btn-danger btn-sm">
+
+          <a href="{{ route('cms.customers_trashed') }}" class="btn btn-danger btn-sm">
             Trashed
           </a>
         </div>
@@ -146,50 +131,41 @@
           <thead>
             <tr>
               <th style="width:80px" class="text-center">#</th>
-              <th style="width:120px" class="text-center">Image</th>
-              <th >Name</th>
-              <th>Number of products</th>
+              <th>Email</th>
+              <th style="width:180px" class="text-center">Created At</th>
               <th style="width:200px" class="text-center">Actions</th>
             </tr>
           </thead>
 
-          <tbody id="catTable">
-            @forelse($categories as $category)
+          <tbody id="customerTable">
+            @forelse($customers as $customer)
               <tr>
-                <td class="text-muted text-center">{{ $category->id }}</td>
+                <td class="text-muted text-center">{{ $customer->id }}</td>
+
+                <td>
+                  <span class="customer-email">{{ $customer->email }}</span>
+                </td>
 
                 <td class="text-center">
-                  @if(!empty($category->image_path))
-                    <img src="{{ asset($category->image_path) }}" class="cat-thumb" alt="category">
-                  @else
-                    <div class="cat-thumb-placeholder">No image</div>
-                  @endif
+                  <span class="email-badge">
+                    {{ $customer->created_at ? $customer->created_at->format('Y-m-d') : '-' }}
+                  </span>
                 </td>
-
-                <td>
-                  <span class="cat-name">{{ $category->category_name }}</span>
-                </td>
-
-                <td>
-                  <span class="badge bg-pink">{{ $category->products_count }}</span>
-                </td>
-
 
                 <td class="text-center">
                   <div class="actions-group">
-                    <a href="{{ route('cms.categories.show', $category->id) }}" class="action-btn action-show" data-toggle="tooltip" title="Show">
+                    <a href="{{ route('cms.customers.show', $customer->id) }}" class="action-btn action-show" data-toggle="tooltip" title="Show">
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.categories.edit', $category->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Edit">
+                    <a href="{{ route('cms.customers.edit', $customer->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Edit">
                       <i class="fas fa-pen"></i>
                     </a>
 
-                    <form action="{{ route('cms.categories.destroy', $category) }}" method="POST" class="m-0">
+                    <form action="{{ route('cms.customers.destroy', $customer) }}" method="POST" class="m-0">
                       @csrf
                       @method('DELETE')
-                      <button type="button" onclick="performDestroy({{ $category->id }}, this)" class="action-btn action-delete" data-toggle="tooltip" title="Delete"
-                              onclick="return confirm('Are you sure?')">
+                      <button type="button" onclick="performDestroy({{ $customer->id }}, this)" class="action-btn action-delete" data-toggle="tooltip" title="Delete">
                         <i class="fas fa-trash"></i>
                       </button>
                     </form>
@@ -198,7 +174,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="text-center text-muted p-4">No categories found</td>
+                <td colspan="4" class="text-center text-muted p-4">No customers found</td>
               </tr>
             @endforelse
           </tbody>
@@ -208,36 +184,31 @@
 
     <div class="card-footer d-flex align-items-center flex-wrap" style="gap:10px;">
       <small class="text-muted">
-        Total: {{ $categories->total() }} categories
+        Total: {{ $customers->total() }} customers
       </small>
 
       <div class="ml-auto">
-        {{ $categories->links() }}
+        {{ $customers->links() }}
       </div>
     </div>
   </div>
-
 </div>
 @endsection
 
 @section('scripts')
 <script>
-
     $(function () { $('[data-toggle="tooltip"]').tooltip() })
 
-    $('#catSearch').on('keyup', function () {
+    $('#customerSearch').on('keyup', function () {
         const q = $(this).val().toLowerCase();
-        $('#catTable tr').each(function () {
-        const text = $(this).text().toLowerCase();
-        $(this).toggle(text.includes(q));
+        $('#customerTable tr').each(function () {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.includes(q));
         });
     });
 
-
-    function performDestroy(id , reference){
-
-        confirmDestroy('/cms/admin/categories/'+id , reference);
+    function performDestroy(id, reference){
+        confirmDestroy('/cms/admin/customers/' + id, reference);
     }
-
 </script>
 @endsection

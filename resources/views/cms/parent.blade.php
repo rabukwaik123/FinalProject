@@ -352,7 +352,7 @@
 
     {{-- Customers --}}
     <li class="nav-item">
-      <a href="#" class="nav-link">
+      <a href="{{ route('cms.customers.index') }}" class="nav-link">
         <i class="nav-icon fas fa-user"></i>
         <p>Customers</p>
       </a>

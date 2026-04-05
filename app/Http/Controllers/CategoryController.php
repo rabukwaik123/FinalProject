@@ -124,4 +124,25 @@ class CategoryController extends Controller
     {
         $categories = Category::destroy($id);
     }
+
+
+    public function trashed(){
+        $categories = Category::onlyTrashed()->orderBy('deleted_at','desc')->get();
+        return response()->view('cms.category.trashed', compact('categories'));
+    }
+
+    public function restore($id){
+        $categories = Category::onlyTrashed()->findOrFail($id)->restore();
+        return back()->with('sucess','Success');
+    }
+
+    public function force($id){
+        $categories = Category::onlyTrashed()->findOrFail($id)->forceDelete();
+        return back()->with('sucess','Success');
+    }
+
+    public function forceAll(){
+        $categories = Category::onlyTrashed()->forceDelete();
+        return back()->with('sucess','Success');
+    }
 }

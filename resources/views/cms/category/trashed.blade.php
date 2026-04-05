@@ -133,8 +133,8 @@
           <a href="{{ route('cms.categories.create') }}" class="btn btn-glow-pink btn-sm">
             <i class="fas fa-plus"></i> Add new category
           </a>
-          <a href="{{ route('cms.categories_trashed') }}" class="btn btn-danger btn-sm">
-            Trashed
+            <a href="{{ route('cms.categories_forceAll') }}" class="btn btn-danger btn-sm">
+             Fresh
           </a>
         </div>
       </div>
@@ -148,7 +148,6 @@
               <th style="width:80px" class="text-center">#</th>
               <th style="width:120px" class="text-center">Image</th>
               <th >Name</th>
-              <th>Number of products</th>
               <th style="width:200px" class="text-center">Actions</th>
             </tr>
           </thead>
@@ -170,9 +169,6 @@
                   <span class="cat-name">{{ $category->category_name }}</span>
                 </td>
 
-                <td>
-                  <span class="badge bg-pink">{{ $category->products_count }}</span>
-                </td>
 
 
                 <td class="text-center">
@@ -181,14 +177,14 @@
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.categories.edit', $category->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Edit">
+                    <a href="{{ route('cms.categories_restore', $category->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Restore">
                       <i class="fas fa-pen"></i>
                     </a>
 
                     <form action="{{ route('cms.categories.destroy', $category) }}" method="POST" class="m-0">
                       @csrf
                       @method('DELETE')
-                      <button type="button" onclick="performDestroy({{ $category->id }}, this)" class="action-btn action-delete" data-toggle="tooltip" title="Delete"
+                      <button type="button" onclick="{{ route('cms.categories_force', $category) }}" class="action-btn action-delete" data-toggle="tooltip" title="Delete"
                               onclick="return confirm('Are you sure?')">
                         <i class="fas fa-trash"></i>
                       </button>
@@ -198,7 +194,7 @@
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="text-center text-muted p-4">No categories found</td>
+                <td colspan="4" class="text-center text-muted p-4">No categories found</td>
               </tr>
             @endforelse
           </tbody>
@@ -206,14 +202,14 @@
       </div>
     </div>
 
-    <div class="card-footer d-flex align-items-center flex-wrap" style="gap:10px;">
+    {{--  <div class="card-footer d-flex align-items-center flex-wrap" style="gap:10px;">
       <small class="text-muted">
         Total: {{ $categories->total() }} categories
       </small>
 
       <div class="ml-auto">
         {{ $categories->links() }}
-      </div>
+      </div>  --}}
     </div>
   </div>
 
