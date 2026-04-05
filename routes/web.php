@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
@@ -26,6 +27,11 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('customers_trashed', [CustomerController::class, 'trashed'])->name('customers_trashed');
     Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
     Route::get('customers_force', [CustomerController::class, 'forceAll'])->name('customers_forceAll');
-
+    Route::resource('carts', CartController::class);
+    Route::post('carts_update/{id}', [CartController::class, 'update'])->name('carts_update');
+    Route::get('carts_trashed', [CartController::class, 'trashed'])->name('carts_trashed');
+    Route::get('carts_restore/{id}', [CartController::class, 'restore'])->name('carts_restore');
+    Route::get('carts_force/{id}', [CartController::class, 'force'])->name('carts_force');
+    Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
 
 });
