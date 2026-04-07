@@ -370,7 +370,7 @@
 
     {{-- Team Members --}}
     <li class="nav-item">
-      <a href="#" class="nav-link">
+      <a href="{{ route('cms.team_members.index') }}" class="nav-link">
         <i class="nav-icon fas fa-users"></i>
         <p>Team Members</p>
       </a>
