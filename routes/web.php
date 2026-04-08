@@ -2,10 +2,11 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -33,5 +34,6 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('carts_restore/{id}', [CartController::class, 'restore'])->name('carts_restore');
     Route::get('carts_force/{id}', [CartController::class, 'force'])->name('carts_force');
     Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
+    Route::resource('orders', OrderController::class);
 
 });

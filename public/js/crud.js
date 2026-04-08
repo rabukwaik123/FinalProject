@@ -2,10 +2,18 @@ function store(url, data) {
     axios.post(url, data)
         .then(function (response) {
             showMessage(response.data);
+            if (response.data.redirect) {
+                window.location.href = response.data.redirect;
+                return;
+            }
             clearForm();
             clearAndHideErrors();
 
+
+            console.log(response.data);
+
         })
+
         .catch(function (error) {
 
             if (error.response.data.errors !== undefined) {
@@ -46,11 +54,15 @@ function storeRoute(url, data) {
     }
 })
         .then(function (response) {
-            // showMessage(response.data);
-            window.location = response.data.redirect ;
-            // showMessage(response.data);
-            // clearForm();
-            // clearAndHideErrors();
+             //showMessage(response.data);
+            //window.location = response.data.redirect ;
+             showMessage(response.data);
+             if (response.data.redirect) {
+                window.location.href = response.data.redirect;
+                return;
+            }
+             clearForm();
+             clearAndHideErrors();
         })
         .catch(function (error) {
 

@@ -334,7 +334,7 @@
 
     {{-- Orders --}}
     <li class="nav-item">
-      <a href="#" class="nav-link">
+      <a href="{{ route('cms.orders.index') }}" class="nav-link">
         <i class="nav-icon fas fa-shopping-bag"></i>
         <p>Orders</p>
       </a>
