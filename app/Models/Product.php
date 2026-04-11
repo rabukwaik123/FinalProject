@@ -33,4 +33,10 @@ class Product extends Model
     public function cartItems(){
         return $this->hasMany(CartItem::class, 'products_id');
     }
+    protected static function booted()
+    {
+        static::deleting(function ($product) {
+            $product->cartItems()->delete();
+        });
+    }
 }

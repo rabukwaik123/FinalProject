@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('total_price', 10, 2);
-            $table->foreignId('cart_id')->constrained('carts')->cascadeOnDelete();
-            $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
+            $table->foreignId('carts_id')->constrained('carts')->cascadeOnDelete();
+            $table->foreignId('products_id')->constrained('products')->cascadeOnDelete();
             $table->timestamps();
         });
     }

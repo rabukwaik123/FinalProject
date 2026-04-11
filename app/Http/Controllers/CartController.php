@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartItem;
 use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,39 +20,58 @@ class CartController extends Controller
     public function create()
     {
         $customers = Customer::orderBy('id', 'desc')->get();
-        return view('cms.cart.create', compact('customers'));
+        $products = Product::all();
+        return view('cms.cart.create', compact('customers','products'));
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'cart_status' => 'required|in:active,ordered,cancelled',
-            'customers_id' => 'required|exists:customers,id',
-        ]);
+         // Decode items
+    $items = json_decode($request->items, true);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'icon' => 'error',
-                'title' => $validator->getMessageBag()->first(),
-            ], 400);
-        }
+    // Validation
+    $validator = Validator::make([
+        'cart_status' => $request->cart_status,
+        'customer_id' => $request->customer_id,
+        'items'       => $items,
+    ], [
+        'cart_status'          => 'required|in:active,checked_out,abandoned',
+        'customer_id'          => 'required|exists:customers,id',
+        'items'                => 'required|array|min:1',
+        'items.*.product_id'   => 'required|exists:products,id',
+        'items.*.quantity'     => 'required|integer|min:1',
+    ]);
 
-        $cart = new Cart();
-        $cart->cart_status = $request->input('cart_status');
-        $cart->customers_id = $request->input('customers_id');
-        $cart->save();
-
+    if ($validator->fails()) {
         return response()->json([
-            'icon' => 'success',
-            'title' => 'Cart created successfully',
-            'redirect' => route('cms.carts.index'),
-        ], 200);
+            'icon'  => 'error',
+            'title' => $validator->getMessageBag()->first(),
+        ], 400);
     }
 
-    public function show($id)
-    {
-        $cart = Cart::with(['customer', 'cartItems'])->findOrFail($id);
-        return view('cms.cart.show', compact('cart'));
+    // Create the cart
+    $cart = Cart::create([
+        'cart_status'  => $request->cart_status,
+        'customers_id'  => $request->customer_id, // matches your DB column name
+    ]);
+
+    // Create cart items
+    foreach ($items as $item) {
+        $product = Product::find($item['product_id']);
+        if (!$product) continue;
+
+        $cartItem = new CartItem();
+        $cartItem->carts_id    = $cart->id;
+        $cartItem->products_id = $product->id;
+        $cartItem->quantity    = $item['quantity'];
+        $cartItem->total_price = $product->price * $item['quantity'];
+        $cartItem->save();
+    }
+
+    return response()->json([
+        'icon'  => 'success',
+        'title' => 'Cart created successfully',
+    ]);
     }
 
     public function edit($id)
