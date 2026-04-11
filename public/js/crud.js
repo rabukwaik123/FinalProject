@@ -2,10 +2,6 @@ function store(url, data) {
     axios.post(url, data)
         .then(function (response) {
             showMessage(response.data);
-            if (response.data.redirect) {
-                window.location.href = response.data.redirect;
-                return;
-            }
             clearForm();
             clearAndHideErrors();
 
@@ -82,7 +78,13 @@ function storeRedirect (url, data, redirectUrl) {
                 window.location.href = redirectUrl;
         })
         .catch(function (error) {
-            console.log(error.response);
+           // console.log(error.response);
+           if (error.response.data.errors !== undefined) {
+                showErrorMessages(error.response.data.errors);
+            } else {
+
+                showMessage(error.response.data);
+            }
         });
 }
 

@@ -42,6 +42,8 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
     Route::resource('orders', OrderController::class);
 
+    Route::resource('orders', OrderController::class);
+
     Route::resource('team_members', TeamMemberController::class);
     Route::post('team_members_update/{id}', [TeamMemberController::class, 'update'])->name('team_members_update');
     Route::get('team_members_trashed', [TeamMemberController::class, 'trashed'])->name('team_members_trashed');

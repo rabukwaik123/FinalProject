@@ -39,7 +39,7 @@
       <h3>Add New Order</h3>
     </div>
 
-    
+
     <form onsubmit="event.preventDefault();">
 
       <div class="card-body">
@@ -126,6 +126,8 @@ function removeRow(btn){
 function performStore(){
 
     let formData = new FormData();
+    const redirectUrl = "{{ route('cms.orders.index') }}";
+
 
     formData.append('customer_id', document.getElementById('customer_id').value);
     formData.append('order_status', document.getElementById('order_status').value);
@@ -139,17 +141,16 @@ function performStore(){
         });
     });
 
-    console.log("Items:", items);
 
 
-    if(items.length === 0){
-        alert('Please add at least one product');
-        return;
-    }
+    //if(items.length === 0){
+      //  alert('Please add at least one product');
+       /// return;
+   // }
 
     formData.append('items', JSON.stringify(items));
 
-    store('/cms/admin/orders', formData);
+    storeRedirect('/cms/admin/orders', formData,redirectUrl);
 }
 
 </script>

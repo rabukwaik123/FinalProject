@@ -145,6 +145,7 @@ function removeRow(btn){
 function performUpdate(id){
 
     let formData = new FormData();
+    
 
     formData.append('customer_id', document.getElementById('customer_id').value);
     formData.append('order_status', document.getElementById('order_status').value);

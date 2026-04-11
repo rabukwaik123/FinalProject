@@ -89,7 +89,7 @@ class TeamMemberController extends Controller
      */
     public function update(Request $request , $id)
     {
-        
+
         $validator = Validator($request->all(),[
             'name' => 'required|string|max:50',
             'job_title' => 'required|string|max:50',
