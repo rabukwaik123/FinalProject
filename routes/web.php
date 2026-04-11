@@ -40,9 +40,10 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('carts_restore/{id}', [CartController::class, 'restore'])->name('carts_restore');
     Route::get('carts_force/{id}', [CartController::class, 'force'])->name('carts_force');
     Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
-    Route::resource('orders', OrderController::class);
 
     Route::resource('orders', OrderController::class);
+    Route::post('orders_update/{id}',[OrderController::class ,'update'])->name('orders_update');
+
 
     Route::resource('team_members', TeamMemberController::class);
     Route::post('team_members_update/{id}', [TeamMemberController::class, 'update'])->name('team_members_update');

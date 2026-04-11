@@ -145,7 +145,7 @@ function removeRow(btn){
 function performUpdate(id){
 
     let formData = new FormData();
-    
+
 
     formData.append('customer_id', document.getElementById('customer_id').value);
     formData.append('order_status', document.getElementById('order_status').value);
@@ -159,18 +159,12 @@ function performUpdate(id){
         });
     });
 
-    console.log("Items:", items);
 
-    if(items.length === 0){
-        alert('Please add at least one product');
-        return;
-    }
+
 
     formData.append('items', JSON.stringify(items));
 
-    formData.append('_method', 'PUT');
-
-    storeRoute('/cms/admin/orders/' + id, formData);
+    storeRoute('/cms/admin/orders_update/' + id, formData);
 }
 
 </script>
