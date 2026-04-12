@@ -219,12 +219,19 @@
                       <i class="fas fa-undo"></i>
                     </a>
 
-                    <button type="button"
+                    <a href="{{ route('cms.carts_force', $cart->id) }}"
+                       class="action-btn action-delete"
+                        data-toggle="tooltip" title="Delete Permanently">
+                      <i class="fas fa-trash"></i>
+                    </a>
+
+
+                    {{-- <button type="button"
                             onclick="performForceDelete({{ $cart->id }}, this)"
                             class="action-btn action-delete"
                             data-toggle="tooltip" title="Delete Permanently">
                       <i class="fas fa-trash"></i>
-                    </button>
+                    </button> --}}
                   </div>
                 </td>
               </tr>

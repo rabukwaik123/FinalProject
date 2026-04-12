@@ -200,4 +200,29 @@ class OrderController extends Controller
     {
         $orders=Order::destroy($id);
     }
+     public function trashed()
+
+    {
+        $orders = Order::with('customer')->orderBy('id', 'desc')->onlyTrashed()->get();
+         $totalAmount = Order::sum('total_amount');
+        return response()->view('cms.order.trashed', compact('orders','totalAmount'));
+    }
+
+    public function restore($id)
+    {
+        Order::onlyTrashed()->findOrFail($id)->restore();
+        return back()->with('success', 'Order restored successfully');
+    }
+
+    public function force($id)
+    {
+        Order::onlyTrashed()->findOrFail($id)->forceDelete();
+        return back()->with('success', 'Order deleted permanently');
+    }
+
+    public function forceAll()
+    {
+        Order::onlyTrashed()->forceDelete();
+        return back()->with('success', 'All trashed orders deleted permanently');
+    }
 }

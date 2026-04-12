@@ -42,6 +42,10 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
 
     Route::resource('orders', OrderController::class);
+    Route::get('orders_trashed', [OrderController::class, 'trashed'])->name('orders_trashed');
+    Route::get('orders_restore/{id}', [OrderController::class, 'restore'])->name('orders_restore');
+    Route::get('orders_force/{id}', [OrderController::class, 'force'])->name('orders_force');
+    Route::get('orders_force', [OrderController::class, 'forceAll'])->name('orders_forceAll');
     Route::post('orders_update/{id}',[OrderController::class ,'update'])->name('orders_update');
 
 
