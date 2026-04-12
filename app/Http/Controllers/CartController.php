@@ -135,7 +135,7 @@ class CartController extends Controller
 }
     public function show($id)
 {
-    $cart = Cart::with([
+    $cart = Cart::withTrashed()->with([
         'customer',
         'cartItems.product'
     ])->findOrFail($id);
@@ -154,6 +154,7 @@ class CartController extends Controller
     }
 
     public function trashed()
+
     {
         $carts = Cart::with('customer')->onlyTrashed()->orderBy('deleted_at', 'desc')->get();
         return view('cms.cart.trashed', compact('carts'));
