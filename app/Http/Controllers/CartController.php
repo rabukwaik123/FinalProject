@@ -77,35 +77,71 @@ class CartController extends Controller
     public function edit($id)
     {
         $cart = Cart::findOrFail($id);
+        $products = Product::all();
         $customers = Customer::orderBy('id', 'desc')->get();
-        return view('cms.cart.edit', compact('cart', 'customers'));
+        return view('cms.cart.edit', compact('cart', 'customers','products'));
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'cart_status' => 'required|in:active,ordered,cancelled',
-            'customers_id' => 'required|exists:customers,id',
-        ]);
+       // Decode items
+    $items = json_decode($request->items, true);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'icon' => 'error',
-                'title' => $validator->getMessageBag()->first(),
-            ], 400);
-        }
+    $validator = Validator::make([
+        'cart_status'  => $request->cart_status,
+        'customers_id' => $request->customers_id,
+        'items'        => $items,
+    ], [
+        'cart_status'          => 'required|in:active,ordered,cancelled',
+        'customers_id'         => 'required|exists:customers,id',
+        'items'                => 'nullable|array',
+        'items.*.product_id'   => 'required|exists:products,id',
+        'items.*.quantity'     => 'required|integer|min:1',
+    ]);
 
-        $cart = Cart::findOrFail($id);
-        $cart->cart_status = $request->input('cart_status');
-        $cart->customers_id = $request->input('customers_id');
-        $cart->save();
-
+    if ($validator->fails()) {
         return response()->json([
-            'icon' => 'success',
-            'title' => 'Cart updated successfully',
-            'redirect' => route('cms.carts.index'),
-        ], 200);
+            'icon'  => 'error',
+            'title' => $validator->getMessageBag()->first(),
+        ], 400);
     }
+
+    // Update the cart
+    $cart = Cart::findOrFail($id);
+    $cart->cart_status  = $request->cart_status;
+    $cart->customers_id  = $request->customers_id;
+    $cart->save();
+
+    // Delete old items and re-insert fresh ones
+    $cart->cartItems()->delete();
+
+    foreach ($items as $item) {
+        $product = Product::find($item['product_id']);
+        if (!$product) continue;
+
+        $cartItem              = new CartItem();
+        $cartItem->carts_id    = $cart->id;
+        $cartItem->products_id = $product->id;
+        $cartItem->quantity    = $item['quantity'];
+        $cartItem->total_price = $product->price * $item['quantity'];
+        $cartItem->save();
+    }
+
+    return response()->json([
+        'icon'     => 'success',
+        'title'    => 'Cart updated successfully',
+        'redirect' => route('cms.carts.index'),
+    ], 200);
+}
+    public function show($id)
+{
+    $cart = Cart::with([
+        'customer',
+        'cartItems.product'
+    ])->findOrFail($id);
+
+    return view('cms.cart.show', compact('cart'));
+}
 
     public function destroy($id)
     {

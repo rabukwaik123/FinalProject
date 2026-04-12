@@ -146,7 +146,7 @@ class OrderController extends Controller
     ], [
         'order_status' => 'required|in:pending,completed,cancelled',
         'customer_id' => 'required|exists:customers,id',
-        //'items' => 'sometimes|required|array|min:1',
+        'items' => 'nullable|array',
         'items.*.product_id' => 'sometimes|required|exists:products,id',
         'items.*.quantity' => 'sometimes|required|integer|min:1',
     ]);
