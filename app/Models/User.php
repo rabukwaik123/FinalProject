@@ -17,10 +17,15 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+   protected $fillable = [
+        'first_name',
+        'last_name',
+        'phone',
+        'birth_month',
+        'birth_day',
+        'status',
+        'actor_type',
+        'actor_id',
     ];
 
     /**
@@ -44,5 +49,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function actor(){
+        return $this->morphTo();
     }
 }

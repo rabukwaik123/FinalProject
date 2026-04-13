@@ -1,7 +1,7 @@
 @extends('cms.parent')
 
-@section('title','Create Customer')
-@section('main-title','Customers')
+@section('title','Create Admin')
+@section('main-title','Admins')
 @section('sub-title','Create')
 
 @section('styles')
@@ -68,11 +68,11 @@
     <div class="card-header">
       <div class="d-flex align-items-center" style="gap:10px;">
         <div class="icon-circle">
-          <i class="fas fa-user-plus"></i>
+          <i class="fas fa-user-shield"></i>
         </div>
         <div>
-          <h3 class="card-title mb-0" style="font-weight:700;">Add New Customer</h3>
-          <small class="text-muted">Create a new customer account</small>
+          <h3 class="card-title mb-0" style="font-weight:700;">Add New Admin</h3>
+          <small class="text-muted">Create a new admin account</small>
         </div>
       </div>
     </div>
@@ -81,16 +81,16 @@
       <div class="card-body">
 
         <div class="hint-box mb-3">
-          <strong>Tip:</strong> Fill in the customer credentials and personal information.
+          <strong>Tip:</strong> Fill in the admin credentials and personal information.
         </div>
 
-        {{-- CUSTOMER ACCOUNT --}}
+        {{-- ADMIN ACCOUNT --}}
         <p class="section-title"><i class="fas fa-lock mr-1"></i> Account Info</p>
 
         <div class="form-group">
           <label for="email" style="font-weight:600;">Email</label>
           <input type="email" id="email" name="email" class="form-control"
-                 placeholder="e.g. customer@example.com" maxlength="100" autofocus>
+                 placeholder="e.g. admin@example.com" maxlength="100" autofocus>
           <small class="text-muted">Must be unique.</small>
         </div>
 
@@ -169,7 +169,7 @@
       </div>
 
       <div class="card-footer d-flex justify-content-between align-items-center">
-        <a href="{{ route('cms.customers.index') }}" class="btn btn-light"
+        <a href="{{ route('cms.admins.index') }}" class="btn btn-light"
            style="border:1px solid var(--soft-line); border-radius:10px;">
           <i class="fas fa-arrow-left"></i> Back
         </a>
@@ -186,9 +186,9 @@
 <script>
     function performStore(){
         let formData = new FormData();
-         const redirectUrl = "{{ route('cms.customers.index') }}";
+         const redirectUrl = "{{ route('cms.admins.index') }}";
 
-        // Customer account fields
+        // Admin account fields
         formData.append('email',       document.getElementById('email').value);
         formData.append('password',    document.getElementById('password').value);
 
@@ -200,7 +200,7 @@
         formData.append('birth_day',   document.getElementById('birth_day').value);
         formData.append('status',      document.getElementById('status').value);
 
-        storeRedirect('/cms/admin/customers', formData,redirectUrl);
+         storeRedirect('/cms/admin/admins', formData,redirectUrl);
     }
 </script>
 @endsection

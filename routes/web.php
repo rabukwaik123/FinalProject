@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -32,6 +33,7 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::post('customers_update/{id}', [CustomerController::class, 'update'])->name('customers_update');
     Route::get('customers_trashed', [CustomerController::class, 'trashed'])->name('customers_trashed');
     Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
+    Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
     Route::get('customers_force', [CustomerController::class, 'forceAll'])->name('customers_forceAll');
 
     Route::resource('carts', CartController::class);
@@ -55,5 +57,13 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('team_members_restore/{id}', [TeamMemberController::class, 'restore'])->name('team_members_restore');
     Route::get('team_members_force/{id}', [TeamMemberController::class, 'force'])->name('team_members_force');
     Route::get('team_members_forceAll', [TeamMemberController::class, 'forceAll'])->name('team_members_forceAll');
+
+     Route::resource('admins', AdminController::class);
+    Route::post('admins_update/{id}', [AdminController::class, 'update'])->name('admins_update');
+    Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
+    Route::get('admins_restore/{id}', [CustomerController::class, 'restore'])->name('admins_restore');
+    Route::get('admins_force/{id}', [CustomerController::class, 'force'])->name('admins_force');
+    Route::get('admins_force', [CustomerController::class, 'forceAll'])->name('admins_forceAll');
+
 
 });

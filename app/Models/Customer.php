@@ -19,4 +19,14 @@ class Customer extends Model
     public function carts(){
         return $this->hasMany(Cart::class, 'customers_id');
     }
+
+     public function user(){
+        return $this->morphOne(User::class,'actor', 'actor_type', 'actor_id', 'id');
+    }
+     protected static function booted()
+    {
+        static::deleting(function ($customer) {
+            $customer->user()->delete();
+        });
+    }
 }
