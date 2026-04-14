@@ -135,6 +135,8 @@
           <thead>
             <tr>
               <th style="width:80px" class="text-center">#</th>
+              <th style="width:80px" class="text-center">Name</th>
+              <th style="width:80px" class="text-center">Phone</th>
               <th>Email</th>
               <th style="width:180px" class="text-center">Deleted At</th>
               <th style="width:200px" class="text-center">Actions</th>
@@ -145,6 +147,8 @@
             @forelse($customers as $customer)
               <tr>
                 <td class="text-muted text-center">{{ $customer->id }}</td>
+                <td class="text-muted text-center">{{ $customer->user->first_name ?? '' }} {{ $customer->user->last_name ?? '' }} </td>
+                <td class="text-muted text-center">{{ $customer->user->phone?? '' }}</td>
 
                 <td>
                   <span class="customer-email">{{ $customer->email }}</span>

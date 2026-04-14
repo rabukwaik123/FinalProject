@@ -200,7 +200,7 @@
         formData.append('birth_day',   document.getElementById('birth_day').value);
         formData.append('status',      document.getElementById('status').value);
 
-        storeRedirect('/cms/admin/customers', formData,redirectUrl);
+        store('/cms/admin/customers', formData);
     }
 </script>
 @endsection

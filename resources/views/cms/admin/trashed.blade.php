@@ -1,7 +1,7 @@
 @extends('cms.parent')
 
-@section('title','Customers')
-@section('main-title','Customers')
+@section('title','Admins')
+@section('main-title','Admins')
 @section('sub-title','Trashed')
 
 @section('styles')
@@ -12,7 +12,6 @@
     --soft-line: rgba(0,0,0,.06);
     --soft-hover: #faf6f8;
   }
-
   .btn-glow-pink{
     background-color:var(--glow-pink);
     border-color:var(--glow-pink);
@@ -25,15 +24,10 @@
     border-color:var(--glow-pink-dark);
     color:#fff;
   }
-
-  .card-shift{
-    margin-left: 0.5cm;
-    margin-right: 0.5cm;
-  }
+  .card-shift{ margin-left: 0.5cm; margin-right: 0.5cm; }
   @media (max-width: 768px){
     .card-shift{ margin-left: 12px; margin-right: 12px; }
   }
-
   .table thead th{
     border-top: 0;
     text-transform: uppercase;
@@ -43,15 +37,13 @@
   }
   .table td, .table th{ vertical-align: middle; }
   .table-hover tbody tr:hover{ background: var(--soft-hover); }
-
   .table thead th:nth-child(1), .table tbody td:nth-child(1),
   .table thead th:nth-child(2), .table tbody td:nth-child(2),
-  .table thead th:nth-child(3), .table tbody td:nth-child(3){
+  .table thead th:nth-child(3), .table tbody td:nth-child(3),
+  .table thead th:nth-child(4), .table tbody td:nth-child(4){
     border-right: 1px solid var(--soft-line);
   }
-
-  .customer-email{ font-weight: 600; color: #111; }
-
+  .admin-email{ font-weight: 600; color: #111; }
   .action-btn{
     width: 34px; height: 34px; padding: 0;
     display: inline-flex; align-items: center; justify-content: center;
@@ -59,35 +51,13 @@
     transition: .15s ease-in-out;
   }
   .action-btn i{ font-size: 14px; }
-
-  .action-show{
-    background: rgba(108,117,125,.12);
-    color:#6c757d;
-    border-color: rgba(108,117,125,.18);
-  }
+  .action-show{ background: rgba(108,117,125,.12); color:#6c757d; border-color: rgba(108,117,125,.18); }
   .action-show:hover{ background: rgba(108,117,125,.22); }
-
-  .action-edit{
-    background: rgba(201,124,157,.16);
-    color: var(--glow-pink-dark);
-    border-color: rgba(201,124,157,.22);
-  }
+  .action-edit{ background: rgba(201,124,157,.16); color: var(--glow-pink-dark); border-color: rgba(201,124,157,.22); }
   .action-edit:hover{ background: rgba(201,124,157,.28); }
-
-  .action-delete{
-    background: rgba(230,81,81,.12);
-    color:#e65151;
-    border-color: rgba(230,81,81,.18);
-  }
+  .action-delete{ background: rgba(230,81,81,.12); color:#e65151; border-color: rgba(230,81,81,.18); }
   .action-delete:hover{ background: rgba(230,81,81,.22); }
-
-  .actions-group{
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-  }
-
+  .actions-group{ display: inline-flex; gap: 8px; align-items: center; justify-content: center; }
   .email-badge{
     background: rgba(201,124,157,.12);
     color: var(--glow-pink-dark);
@@ -106,23 +76,24 @@
     <div class="card-header">
       <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div>
-          <h3 class="card-title mb-0">Trashed Customers</h3>
+          <h3 class="card-title mb-0">Trashed Admins</h3>
         </div>
 
         <div class="d-flex align-items-center" style="gap:10px;">
           <div class="input-group input-group-sm" style="width: 240px;">
-            <input id="customerSearch" type="text" class="form-control" placeholder="Search customer...">
+            <input id="adminSearch" type="text" class="form-control" placeholder="Search admin...">
             <div class="input-group-append">
               <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
           </div>
 
-          <a href="{{ route('cms.customers.index') }}" class="btn btn-glow-pink btn-sm">
-            <i class="fas fa-arrow-left"></i> Back to customers
+          <a href="{{ route('cms.admins.index') }}" class="btn btn-glow-pink btn-sm">
+            <i class="fas fa-arrow-left"></i> Back to Admins
           </a>
 
-          <a href="{{ route('cms.customers_forceAll') }}" class="btn btn-danger btn-sm"
-             onclick="return confirm('Are you sure you want to delete all trashed customers permanently?')">
+          <a href="{{ route('cms.admins_forceAll') }}"
+             class="btn btn-danger btn-sm"
+             onclick="return confirm('Are you sure you want to permanently delete all trashed admins?')">
             Force Delete All
           </a>
         </div>
@@ -135,53 +106,62 @@
           <thead>
             <tr>
               <th style="width:80px" class="text-center">#</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Phone</th>
               <th>Email</th>
               <th style="width:180px" class="text-center">Deleted At</th>
               <th style="width:200px" class="text-center">Actions</th>
             </tr>
           </thead>
 
-          <tbody id="customerTable">
-            @forelse($customers as $customer)
+          <tbody id="adminTable">
+            @forelse($admins as $admin)
               <tr>
-                <td class="text-muted text-center">{{ $customer->id }}</td>
+                <td class="text-muted text-center">{{ $admin->id }}</td>
+
+                <td class="text-muted text-center">
+                    {{ $admin->user->first_name ?? '-' }} {{ $admin->user->last_name ?? '' }}
+                </td>
+
+                <td class="text-muted text-center">
+                    {{ $admin->user->phone ?? '-' }}
+                </td>
 
                 <td>
-                  <span class="customer-email">{{ $customer->email }}</span>
+                  <span class="admin-email">{{ $admin->email }}</span>
                 </td>
 
                 <td class="text-center">
                   <span class="email-badge">
-                    {{ $customer->deleted_at ? $customer->deleted_at->format('Y-m-d') : '-' }}
+                    {{ $admin->deleted_at ? $admin->deleted_at->format('Y-m-d') : '-' }}
                   </span>
                 </td>
 
                 <td class="text-center">
                   <div class="actions-group">
-                    <a href="{{ route('cms.customers.show', $customer->id) }}"
+                    <a href="{{ route('cms.admins.show', $admin->id) }}"
                        class="action-btn action-show"
                        data-toggle="tooltip" title="Show">
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.customers_restore', $customer->id) }}"
+                    <a href="{{ route('cms.admins_restore', $admin->id) }}"
                        class="action-btn action-edit"
                        data-toggle="tooltip" title="Restore">
                       <i class="fas fa-undo"></i>
                     </a>
 
-                    <button type="button"
-                            onclick="performForceDelete({{ $customer->id }}, this)"
-                            class="action-btn action-delete"
-                            data-toggle="tooltip" title="Delete Permanently">
+                    <a href="{{ route('cms.admins_force', $admin->id) }}"
+                       class="action-btn action-delete"
+                       data-toggle="tooltip" title="Delete Permanently">
                       <i class="fas fa-trash"></i>
-                    </button>
+                    </a>
                   </div>
                 </td>
               </tr>
             @empty
               <tr>
-                <td colspan="4" class="text-center text-muted p-4">No trashed customers found</td>
+                <td colspan="6" class="text-center text-muted p-4">No trashed admins found</td>
               </tr>
             @endforelse
           </tbody>
@@ -197,16 +177,12 @@
 <script>
     $(function () { $('[data-toggle="tooltip"]').tooltip() })
 
-    $('#customerSearch').on('keyup', function () {
+    $('#adminSearch').on('keyup', function () {
         const q = $(this).val().toLowerCase();
-        $('#customerTable tr').each(function () {
+        $('#adminTable tr').each(function () {
             const text = $(this).text().toLowerCase();
             $(this).toggle(text.includes(q));
         });
     });
-
-    function performForceDelete(id, reference){
-        confirmDestroy('/cms/admin/customers_force/' + id, reference);
-    }
 </script>
 @endsection

@@ -61,9 +61,9 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
      Route::resource('admins', AdminController::class);
     Route::post('admins_update/{id}', [AdminController::class, 'update'])->name('admins_update');
     Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
-    Route::get('admins_restore/{id}', [CustomerController::class, 'restore'])->name('admins_restore');
-    Route::get('admins_force/{id}', [CustomerController::class, 'force'])->name('admins_force');
-    Route::get('admins_force', [CustomerController::class, 'forceAll'])->name('admins_forceAll');
+    Route::get('admins_restore/{id}', [AdminController::class, 'restore'])->name('admins_restore');
+    Route::get('admins_force/{id}', [AdminController::class, 'force'])->name('admins_force');
+    Route::get('admins_force', [AdminController::class, 'forceAll'])->name('admins_forceAll');
 
 
 });

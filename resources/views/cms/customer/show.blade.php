@@ -101,6 +101,11 @@
           <span class="glow-label">Customer ID:</span>
           <span class="glow-value">{{ $customer->id }}</span>
         </div>
+        <div class="glow-info-box mb-4">
+        <div class="glow-row">
+          <span class="glow-label">Customer Name:</span>
+          <span class="glow-value">{{ $customer->user->first_name ?? '' }} {{ $customer->user->last_name ?? '' }}</span>
+        </div>
 
         <div class="glow-row">
           <span class="glow-label">Email:</span>

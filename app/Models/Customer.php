@@ -23,10 +23,18 @@ class Customer extends Model
      public function user(){
         return $this->morphOne(User::class,'actor', 'actor_type', 'actor_id', 'id');
     }
-     protected static function booted()
+   protected static function booted()
     {
+        // Soft delete → soft delete the user
         static::deleting(function ($customer) {
-            $customer->user()->delete();
+            if (!$customer->isForceDeleting()) {
+                $customer->user()->delete(); // soft delete
+            }
+        });
+
+        // Force delete → permanently delete the user
+        static::forceDeleting(function ($customer) {
+            $customer->user()->forceDelete(); // permanent delete
         });
     }
 }
