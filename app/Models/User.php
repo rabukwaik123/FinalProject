@@ -28,6 +28,8 @@ class User extends Authenticatable
         'actor_type',
         'actor_id',
     ];
+        protected $touches = ['actor'];
+
 
     /**
      * The attributes that should be hidden for serialization.

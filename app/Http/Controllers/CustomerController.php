@@ -172,7 +172,10 @@ class CustomerController extends Controller
 
     public function forceAll()
     {
-        Customer::onlyTrashed()->forceDelete();
+       $customers = Customer::onlyTrashed()->with('user')->get();
+        foreach ($customers as $customer) {
+        $customer->forceDelete();
+    }
         return back()->with('success', 'All trashed customers deleted permanently');
     }
 }

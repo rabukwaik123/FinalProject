@@ -194,7 +194,11 @@ class AdminController extends Controller
 
     public function forceAll()
     {
-        Admin::onlyTrashed()->forceDelete();
+        $admins = Admin::onlyTrashed()->with('user')->get();
+        foreach ($admins as $admin) {
+        $admin->forceDelete();
+    }
         return back()->with('success', 'All trashed admins deleted permanently');
+
     }
 }
