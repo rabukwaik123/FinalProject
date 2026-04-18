@@ -95,6 +95,34 @@
     color:#333;
     margin: 16px 0 10px;
   }
+
+  .items-table{
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,.06);
+  }
+
+  .items-table thead th{
+    background:#fff7fa;
+    color:#555;
+    font-size:.85rem;
+    text-transform: uppercase;
+    letter-spacing:.03em;
+  }
+
+  .items-table td, .items-table th{
+    vertical-align: middle;
+  }
+
+  .price-badge{
+    background: rgba(201,124,157,.12);
+    color: var(--glow-pink-dark);
+    border: 1px solid rgba(201,124,157,.18);
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    font-size: .82rem;
+    font-weight: 600;
+  }
 </style>
 @endsection
 
@@ -147,10 +175,36 @@
         </div>
       </div>
 
-      <div class="section-title">Cart Information</div>
-      <div class="text-muted">
-        This page shows the cart owner and its current status.
-      </div>
+      <div class="section-title">Cart Items</div>
+
+      @if($cart->cartItems->count() > 0)
+        <div class="table-responsive items-table">
+          <table class="table table-hover mb-0">
+            <thead>
+              <tr>
+                <th style="width:80px" class="text-center">#</th>
+                <th>Product</th>
+                <th style="width:120px" class="text-center">Quantity</th>
+                <th style="width:160px" class="text-center">Total Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach($cart->cartItems as $item)
+                <tr>
+                  <td class="text-center text-muted">{{ $item->id }}</td>
+                  <td>{{ $item->product->product_name ?? 'N/A' }}</td>
+                  <td class="text-center">{{ $item->quantity }}</td>
+                  <td class="text-center">
+                    <span class="price-badge">{{ $item->total_price }}</span>
+                  </td>
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+      @else
+        <div class="text-muted">No items found in this cart.</div>
+      @endif
 
     </div>
 
