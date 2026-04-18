@@ -2,58 +2,59 @@
 
 namespace Database\Seeders;
 
-use App\Models\Customer;
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class CustomerSeeder extends Seeder
+class AdminSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-         $customers = [
+         $admins = [
             [
-                'email'      => 'malak@example.com',
+                'email'      => 'admin1@example.com',
+                'password'   => Hash::make('password123'),
+                'first_name' => 'Super',
+                'last_name'  => 'Admin',
+                'phone'      => '5551234567',
+                'birth_month'=> 'February',
+                'birth_day'  => '10',
+                'status'     => 'active',
+            ],
+            [
+                'email'      => 'admin2@example.com',
+                'password'   => Hash::make('password123'),
+                'first_name' => 'Sara',
+                'last_name'  => 'Hosam',
+                'phone'      => '5559876543',
+                'birth_month'=> 'July',
+                'birth_day'  => '4',
+                'status'     => 'active',
+            ],
+            [
+                'email'      => 'admin3@example.com',
                 'password'   => Hash::make('password123'),
                 'first_name' => 'Malak',
-                'last_name'  => 'Diab',
-                'phone'      => '1234567890',
-                'birth_month'=> 'January',
-                'birth_day'  => '15',
-                'status'     => 'active',
-            ],
-            [
-                'email'      => 'salma@example.com',
-                'password'   => Hash::make('password123'),
-                'first_name' => 'Salma',
-                'last_name'  => 'Hosam',
-                'phone'      => '0987654321',
-                'birth_month'=> 'March',
-                'birth_day'  => '22',
-                'status'     => 'active',
-            ],
-            [
-                'email'      => 'ahmed@example.com',
-                'password'   => Hash::make('password123'),
-                'first_name' => 'Ahmed',
-                'last_name'  => 'Khaled',
-                'phone'      => '1122334455',
-                'birth_month'=> 'June',
-                'birth_day'  => '8',
+                'last_name'  => 'Banna',
+                'phone'      => '5554443322',
+                'birth_month'=> 'November',
+                'birth_day'  => '30',
                 'status'     => 'inactive',
             ],
         ];
 
-        foreach ($customers as $data) {
+        foreach ($admins as $data) {
 
-            $customer = Customer::create([
+            $admin = Admin::create([
                 'email'    => $data['email'],
                 'password' => $data['password'],
             ]);
+
 
             User::create([
                 'first_name'  => $data['first_name'],
@@ -62,9 +63,10 @@ class CustomerSeeder extends Seeder
                 'birth_month' => $data['birth_month'],
                 'birth_day'   => $data['birth_day'],
                 'status'      => $data['status'],
-                'actor_type'  => 'App\\Models\\Customer',
-                'actor_id'    => $customer->id,
+                'actor_type'  => 'App\\Models\\Admin',
+                'actor_id'    => $admin->id,
             ]);
         }
     }
-}
+    }
+

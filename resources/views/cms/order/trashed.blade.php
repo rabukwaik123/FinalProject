@@ -99,11 +99,13 @@
             </div>
           </div>
 
-          <a href="{{ route('cms.orders.create') }}" class="btn btn-glow-pink btn-sm">
-            <i class="fas fa-plus"></i> Add new order
+          <a href="{{ route('cms.orders.index') }}" class="btn btn-glow-pink btn-sm">
+            <i class="fas fa-arrow-left"></i> Back
           </a>
-          <a href="{{ route('cms.orders_trashed') }}" class="btn btn-danger btn-sm">
-            Trashed
+           <a href="{{ route('cms.orders_forceAll') }}"
+             class="btn btn-danger btn-sm"
+             onclick="return confirm('Are you sure you want to permanently delete all trashed carts?')">
+            Fresh
           </a>
         </div>
 
@@ -151,11 +153,12 @@
                   ${{ number_format($order->total_amount, 2) }}
                 </td>
 
-                <td class="text-center">
-                  <span class="order-badge">
-                    {{ $order->created_at->format('Y-m-d') }}
+                    <td class="text-center">
+                  <span class="date-badge">
+                    {{ $order->deleted_at ? $order->deleted_at->format('Y-m-d') : '-' }}
                   </span>
                 </td>
+
 
                 <td class="text-center">
                   <div class="actions-group">
@@ -164,20 +167,25 @@
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.orders.edit', $order->id) }}" class="action-btn action-edit">
-                      <i class="fas fa-pen"></i>
+                    <a href="{{ route('cms.orders_restore', $order->id) }}"
+                       class="action-btn action-edit"
+                       data-toggle="tooltip" title="Restore">
+                      <i class="fas fa-undo"></i>
                     </a>
 
-                    <form action="{{ route('cms.orders.destroy', $order->id) }}" method="POST">
-                      @csrf
-                      @method('DELETE')
+                     <a href="{{ route('cms.orders_force', $order->id) }}"
+                       class="action-btn action-delete"
+                        data-toggle="tooltip" title="Delete Permanently">
+                      <i class="fas fa-trash"></i>
+                    </a>
 
-                      <button type="button"
-                              onclick="performDestroy({{ $order->id }}, this)"
-                              class="action-btn action-delete">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </form>
+
+                     {{-- <button type="button"
+                            onclick="performForceDelete({{ $order->id }}, this)"
+                            class="action-btn action-delete"
+                            data-toggle="tooltip" title="Delete Permanently">
+                      <i class="fas fa-trash"></i>
+                    </button> --}}
 
                   </div>
                 </td>
@@ -199,9 +207,6 @@
         Total Revenue: ${{ number_format($totalAmount, 2) }} orders
       </small>
 
-      <div class="ml-auto">
-        {{ $orders->links() }}
-      </div>
     </div>
 
   </div>
@@ -223,6 +228,9 @@
 
     function performDestroy(id, reference){
         confirmDestroy('/cms/admin/orders/' + id, reference);
+    }
+     function performForceDelete(id, reference){
+        confirmDestroy('/cms/admin/orders_force/' + id, reference);
     }
 </script>
 @endsection

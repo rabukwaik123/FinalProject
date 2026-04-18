@@ -80,14 +80,16 @@ class OrderController extends Controller
         $price = $product->price;
         $quantity = $item['quantity'];
 
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $product->id,
-            'quantity' => $quantity,
-            'total_price' => $price,
-        ]);
+        $orderItems=new OrderItem();
+        $orderItems->order_id = $order->id;
+        $orderItems->product_id = $product->id;
+        $orderItems->quantity = $quantity ;
+        $orderItems->total_price = $price ;
+
 
         $total += $price * $quantity;
+        $issaved = $orderItems->save();
+
     }
 
 
@@ -144,9 +146,9 @@ class OrderController extends Controller
     ], [
         'order_status' => 'required|in:pending,completed,cancelled',
         'customer_id' => 'required|exists:customers,id',
-        'items' => 'required|array|min:1',
-        'items.*.product_id' => 'required|exists:products,id',
-        'items.*.quantity' => 'required|integer|min:1',
+        'items' => 'nullable|array',
+        'items.*.product_id' => 'sometimes|required|exists:products,id',
+        'items.*.quantity' => 'sometimes|required|integer|min:1',
     ]);
 
     if ($validator->fails()) {
@@ -178,14 +180,13 @@ class OrderController extends Controller
 
         $price = $product->price;
         $quantity = $item['quantity'];
+        $orderItems=new OrderItem();
+        $orderItems->order_id=$order->id;
+        $orderItems->product_id=$product->id;
+        $orderItems->quantity=$quantity;
+        $orderItems->total_price=$quantity*$price;
 
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $product->id,
-            'quantity' => $quantity,
-            'total_price' => $price * $quantity,
-        ]);
-
+        $isupdated = $orderItems->save();
         $total += $price * $quantity;
     }
 
@@ -193,20 +194,35 @@ class OrderController extends Controller
     $order->update([
         'total_amount' => $total
     ]);
-
-    return response()->json([
-        'icon' => 'success',
-        'title' => 'Order updated successfully',
-        'redirect' => route('cms.orders.index'),
-    ], 200);
+    return['redirect'=>route('cms.orders.index')];
     }
      public function destroy($id)
     {
-        Order::destroy($id);
+        $orders=Order::destroy($id);
+    }
+     public function trashed()
 
-        return response()->json([
-            'icon' => 'success',
-            'title' => 'Order deleted successfully',
-        ], 200);
+    {
+        $orders = Order::with('customer')->orderBy('id', 'desc')->onlyTrashed()->get();
+         $totalAmount = Order::sum('total_amount');
+        return response()->view('cms.order.trashed', compact('orders','totalAmount'));
+    }
+
+    public function restore($id)
+    {
+        Order::onlyTrashed()->findOrFail($id)->restore();
+        return back()->with('success', 'Order restored successfully');
+    }
+
+    public function force($id)
+    {
+        Order::onlyTrashed()->findOrFail($id)->forceDelete();
+        return back()->with('success', 'Order deleted permanently');
+    }
+
+    public function forceAll()
+    {
+        Order::onlyTrashed()->forceDelete();
+        return back()->with('success', 'All trashed orders deleted permanently');
     }
 }

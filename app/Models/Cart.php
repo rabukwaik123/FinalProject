@@ -23,4 +23,11 @@ class Cart extends Model
     public function cartItems(){
         return $this->hasMany(CartItem::class, 'carts_id');
     }
+
+     protected static function booted()
+    {
+        static::deleting(function ($cart) {
+            $cart->cartItems()->delete();
+        });
+    }
 }

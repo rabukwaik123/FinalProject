@@ -4,24 +4,32 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
+   protected $fillable = [
+        'first_name',
+        'last_name',
+        'phone',
+        'birth_month',
+        'birth_day',
+        'status',
+        'actor_type',
+        'actor_id',
     ];
+        protected $touches = ['actor'];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -44,5 +52,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function actor(){
+        return $this->morphTo();
     }
 }

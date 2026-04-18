@@ -51,7 +51,7 @@ function storeRoute(url, data) {
 })
         .then(function (response) {
              //showMessage(response.data);
-            //window.location = response.data.redirect ;
+            window.location = response.data.redirect ;
              showMessage(response.data);
              if (response.data.redirect) {
                 window.location.href = response.data.redirect;

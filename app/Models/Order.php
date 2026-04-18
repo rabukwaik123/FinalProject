@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */
-    use HasFactory;
+    use HasFactory,SoftDeletes;
      protected $fillable = ['order_status', 'total_amount', 'customer_id'];
 
     public function customer()
@@ -20,4 +21,10 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    // protected static function boot(){
+    //     parent::boot();
+    //     static::deleting(function($order){
+    //         $order->items()->delete();
+    //     });
+    // }
 }

@@ -1,8 +1,8 @@
 @extends('cms.parent')
 
-@section('title','Create Customer')
-@section('main-title','Customers')
-@section('sub-title','Create')
+@section('title','Edit Admin')
+@section('main-title','Admins')
+@section('sub-title','Edit')
 
 @section('styles')
 <style>
@@ -29,14 +29,6 @@
     border-color:var(--glow-pink-dark);
     color:#fff;
   }
-  .hint-box{
-    background: var(--soft-bg);
-    border: 1px solid rgba(201,124,157,.25);
-    border-radius: 12px;
-    padding: 12px 14px;
-    color: #5b5b5b;
-    font-size: .92rem;
-  }
   .form-control{ border-radius: 12px; }
   .form-control:focus{
     border-color: rgba(201,124,157,.6);
@@ -50,6 +42,14 @@
     align-items:center;
     justify-content:center;
     color: var(--glow-pink-dark);
+  }
+  .info-box{
+    background: #fff8fb;
+    border: 1px solid rgba(201,124,157,.25);
+    border-radius: 12px;
+    padding: 12px 14px;
+    color: #666;
+    font-size: .92rem;
   }
   .section-title{
     font-weight: 700;
@@ -68,11 +68,10 @@
     <div class="card-header">
       <div class="d-flex align-items-center" style="gap:10px;">
         <div class="icon-circle">
-          <i class="fas fa-user-plus"></i>
+          <i class="fas fa-user-shield"></i>
         </div>
         <div>
-          <h3 class="card-title mb-0" style="font-weight:700;">Add New Customer</h3>
-          <small class="text-muted">Create a new customer account</small>
+          <h3 class="card-title mb-0" style="font-weight:700;">Edit Admin</h3>
         </div>
       </div>
     </div>
@@ -80,52 +79,55 @@
     <form onsubmit="event.preventDefault();">
       <div class="card-body">
 
-        <div class="hint-box mb-3">
-          <strong>Tip:</strong> Fill in the customer credentials and personal information.
+        <div class="info-box mb-3">
+          You can update the admin's credentials and personal information. Leave password blank to keep it unchanged.
         </div>
 
-        {{-- CUSTOMER ACCOUNT --}}
+        {{-- ACCOUNT INFO --}}
         <p class="section-title"><i class="fas fa-lock mr-1"></i> Account Info</p>
 
         <div class="form-group">
           <label for="email" style="font-weight:600;">Email</label>
-          <input type="email" id="email" name="email" class="form-control"
-                 placeholder="e.g. customer@example.com" maxlength="100" autofocus>
-          <small class="text-muted">Must be unique.</small>
+          <input type="email" id="email" name="email"
+                 value="{{ $admin->email }}"
+                 class="form-control" maxlength="100" autofocus>
         </div>
 
         <div class="form-group mt-3">
-          <label for="password" style="font-weight:600;">Password</label>
-          <input type="password" id="password" name="password" class="form-control"
-                 placeholder="Enter password">
-          <small class="text-muted">Minimum 6 characters.</small>
+          <label for="password" style="font-weight:600;">New Password</label>
+          <input type="password" id="password" name="password"
+                 class="form-control"
+                 placeholder="Leave blank if you don't want to change it">
+          <small class="text-muted">Minimum 6 characters if entered.</small>
         </div>
 
-        {{-- USER PERSONAL INFO --}}
+        {{-- PERSONAL INFO --}}
         <p class="section-title"><i class="fas fa-user mr-1"></i> Personal Info</p>
 
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="first_name" style="font-weight:600;">First Name</label>
-              <input type="text" id="first_name" name="first_name" class="form-control"
-                     placeholder="e.g. John" maxlength="45">
+              <input type="text" id="first_name" name="first_name"
+                     value="{{ $admin->user->first_name ?? '' }}"
+                     class="form-control" maxlength="45">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="last_name" style="font-weight:600;">Last Name</label>
-              <input type="text" id="last_name" name="last_name" class="form-control"
-                     placeholder="e.g. Doe" maxlength="45">
+              <input type="text" id="last_name" name="last_name"
+                     value="{{ $admin->user->last_name ?? '' }}"
+                     class="form-control" maxlength="45">
             </div>
           </div>
         </div>
 
         <div class="form-group mt-3">
           <label for="phone" style="font-weight:600;">Phone</label>
-          <input type="text" id="phone" name="phone" class="form-control"
-                 placeholder="e.g. +1234567890" maxlength="45">
-          <small class="text-muted">Must be unique.</small>
+          <input type="text" id="phone" name="phone"
+                 value="{{ $admin->user->phone ?? '' }}"
+                 class="form-control" maxlength="45">
         </div>
 
         <div class="row mt-3">
@@ -134,26 +136,21 @@
               <label for="birth_month" style="font-weight:600;">Birth Month</label>
               <select id="birth_month" name="birth_month" class="form-control">
                 <option value="">Select Month</option>
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
+                @foreach(['January','February','March','April','May','June','July','August','September','October','November','December'] as $month)
+                  <option value="{{ $month }}"
+                    {{ ($admin->user->birth_month ?? '') == $month ? 'selected' : '' }}>
+                    {{ $month }}
+                  </option>
+                @endforeach
               </select>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="birth_day" style="font-weight:600;">Birth Day</label>
-              <input type="number" id="birth_day" name="birth_day" class="form-control"
-                     placeholder="e.g. 15" min="1" max="31">
+              <input type="number" id="birth_day" name="birth_day"
+                     value="{{ $admin->user->birth_day ?? '' }}"
+                     class="form-control" min="1" max="31">
             </div>
           </div>
         </div>
@@ -161,20 +158,20 @@
         <div class="form-group mt-3">
           <label for="status" style="font-weight:600;">Status</label>
           <select id="status" name="status" class="form-control">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="active"   {{ ($admin->user->status ?? '') == 'active'   ? 'selected' : '' }}>Active</option>
+            <option value="inactive" {{ ($admin->user->status ?? '') == 'inactive' ? 'selected' : '' }}>Inactive</option>
           </select>
         </div>
 
       </div>
 
       <div class="card-footer d-flex justify-content-between align-items-center">
-        <a href="{{ route('cms.customers.index') }}" class="btn btn-light"
+        <a href="{{ route('cms.admins.index') }}" class="btn btn-light"
            style="border:1px solid var(--soft-line); border-radius:10px;">
           <i class="fas fa-arrow-left"></i> Back
         </a>
-        <button type="button" onclick="performStore()" class="btn btn-glow-pink">
-          <i class="fas fa-save"></i> Save
+        <button type="button" onclick="performUpdate({{ $admin->id }})" class="btn btn-glow-pink">
+          <i class="fas fa-save"></i> Update
         </button>
       </div>
     </form>
@@ -184,23 +181,23 @@
 
 @section('scripts')
 <script>
-    function performStore(){
+    function performUpdate(id){
         let formData = new FormData();
-         const redirectUrl = "{{ route('cms.customers.index') }}";
 
-        // Customer account fields
+        // Account fields
         formData.append('email',       document.getElementById('email').value);
         formData.append('password',    document.getElementById('password').value);
 
-        // User personal fields
+        // Personal fields
         formData.append('first_name',  document.getElementById('first_name').value);
         formData.append('last_name',   document.getElementById('last_name').value);
         formData.append('phone',       document.getElementById('phone').value);
         formData.append('birth_month', document.getElementById('birth_month').value);
         formData.append('birth_day',   document.getElementById('birth_day').value);
         formData.append('status',      document.getElementById('status').value);
+         storeRoute('/cms/admin/admins_update/' + id, formData);
 
-        store('/cms/admin/customers', formData);
+
     }
 </script>
 @endsection

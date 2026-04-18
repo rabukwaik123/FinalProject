@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
@@ -32,6 +33,7 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::post('customers_update/{id}', [CustomerController::class, 'update'])->name('customers_update');
     Route::get('customers_trashed', [CustomerController::class, 'trashed'])->name('customers_trashed');
     Route::get('customers_restore/{id}', [CustomerController::class, 'restore'])->name('customers_restore');
+    Route::get('customers_force/{id}', [CustomerController::class, 'force'])->name('customers_force');
     Route::get('customers_force', [CustomerController::class, 'forceAll'])->name('customers_forceAll');
 
     Route::resource('carts', CartController::class);
@@ -40,9 +42,14 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('carts_restore/{id}', [CartController::class, 'restore'])->name('carts_restore');
     Route::get('carts_force/{id}', [CartController::class, 'force'])->name('carts_force');
     Route::get('carts_force', [CartController::class, 'forceAll'])->name('carts_forceAll');
-    Route::resource('orders', OrderController::class);
 
     Route::resource('orders', OrderController::class);
+    Route::get('orders_trashed', [OrderController::class, 'trashed'])->name('orders_trashed');
+    Route::get('orders_restore/{id}', [OrderController::class, 'restore'])->name('orders_restore');
+    Route::get('orders_force/{id}', [OrderController::class, 'force'])->name('orders_force');
+    Route::get('orders_force', [OrderController::class, 'forceAll'])->name('orders_forceAll');
+    Route::post('orders_update/{id}',[OrderController::class ,'update'])->name('orders_update');
+
 
     Route::resource('team_members', TeamMemberController::class);
     Route::post('team_members_update/{id}', [TeamMemberController::class, 'update'])->name('team_members_update');
@@ -50,5 +57,13 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('team_members_restore/{id}', [TeamMemberController::class, 'restore'])->name('team_members_restore');
     Route::get('team_members_force/{id}', [TeamMemberController::class, 'force'])->name('team_members_force');
     Route::get('team_members_forceAll', [TeamMemberController::class, 'forceAll'])->name('team_members_forceAll');
+
+     Route::resource('admins', AdminController::class);
+    Route::post('admins_update/{id}', [AdminController::class, 'update'])->name('admins_update');
+    Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
+    Route::get('admins_restore/{id}', [AdminController::class, 'restore'])->name('admins_restore');
+    Route::get('admins_force/{id}', [AdminController::class, 'force'])->name('admins_force');
+    Route::get('admins_force', [AdminController::class, 'forceAll'])->name('admins_forceAll');
+
 
 });

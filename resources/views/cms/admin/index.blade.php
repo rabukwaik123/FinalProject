@@ -1,7 +1,7 @@
 @extends('cms.parent')
 
-@section('title','Customers')
-@section('main-title','Customers')
+@section('title','Admins')
+@section('main-title','Admins')
 @section('sub-title','Index')
 
 @section('styles')
@@ -12,7 +12,6 @@
     --soft-line: rgba(0,0,0,.06);
     --soft-hover: #faf6f8;
   }
-
   .btn-glow-pink{
     background-color:var(--glow-pink);
     border-color:var(--glow-pink);
@@ -25,15 +24,10 @@
     border-color:var(--glow-pink-dark);
     color:#fff;
   }
-
-  .card-shift{
-    margin-left: 0.5cm;
-    margin-right: 0.5cm;
-  }
+  .card-shift{ margin-left: 0.5cm; margin-right: 0.5cm; }
   @media (max-width: 768px){
     .card-shift{ margin-left: 12px; margin-right: 12px; }
   }
-
   .table thead th{
     border-top: 0;
     text-transform: uppercase;
@@ -43,15 +37,13 @@
   }
   .table td, .table th{ vertical-align: middle; }
   .table-hover tbody tr:hover{ background: var(--soft-hover); }
-
   .table thead th:nth-child(1), .table tbody td:nth-child(1),
   .table thead th:nth-child(2), .table tbody td:nth-child(2),
-  .table thead th:nth-child(3), .table tbody td:nth-child(3){
+  .table thead th:nth-child(3), .table tbody td:nth-child(3),
+  .table thead th:nth-child(4), .table tbody td:nth-child(4){
     border-right: 1px solid var(--soft-line);
   }
-
-  .customer-email{ font-weight: 600; color: #111; }
-
+  .admin-email{ font-weight: 600; color: #111; }
   .action-btn{
     width: 34px; height: 34px; padding: 0;
     display: inline-flex; align-items: center; justify-content: center;
@@ -59,23 +51,13 @@
     transition: .15s ease-in-out;
   }
   .action-btn i{ font-size: 14px; }
-
   .action-show{ background: rgba(108,117,125,.12); color:#6c757d; border-color: rgba(108,117,125,.18); }
   .action-show:hover{ background: rgba(108,117,125,.22); }
-
   .action-edit{ background: rgba(201,124,157,.16); color: var(--glow-pink-dark); border-color: rgba(201,124,157,.22); }
   .action-edit:hover{ background: rgba(201,124,157,.28); }
-
   .action-delete{ background: rgba(230,81,81,.12); color:#e65151; border-color: rgba(230,81,81,.18); }
   .action-delete:hover{ background: rgba(230,81,81,.22); }
-
-  .actions-group{
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
-    justify-content: center;
-  }
-
+  .actions-group{ display: inline-flex; gap: 8px; align-items: center; justify-content: center; }
   .pagination .page-link{ color: var(--glow-pink-dark); }
   .pagination .page-item.active .page-link{
     background-color: var(--glow-pink);
@@ -84,7 +66,6 @@
   }
   .pagination .page-link:focus{ box-shadow: none; }
   .pagination .page-item.disabled .page-link{ color: #aaa; }
-
   .email-badge{
     background: rgba(201,124,157,.12);
     color: var(--glow-pink-dark);
@@ -103,22 +84,22 @@
     <div class="card-header">
       <div class="d-flex flex-wrap justify-content-between align-items-center">
         <div>
-          <h3 class="card-title mb-0">Customers</h3>
+          <h3 class="card-title mb-0">Admins</h3>
         </div>
 
         <div class="d-flex align-items-center" style="gap:10px;">
           <div class="input-group input-group-sm" style="width: 240px;">
-            <input id="customerSearch" type="text" class="form-control" placeholder="Search customer...">
+            <input id="adminSearch" type="text" class="form-control" placeholder="Search admin...">
             <div class="input-group-append">
               <span class="input-group-text"><i class="fas fa-search"></i></span>
             </div>
           </div>
 
-          <a href="{{ route('cms.customers.create') }}" class="btn btn-glow-pink btn-sm">
-            <i class="fas fa-plus"></i> Add new customer
+          <a href="{{ route('cms.admins.create') }}" class="btn btn-glow-pink btn-sm">
+            <i class="fas fa-plus"></i> Add New Admin
           </a>
 
-          <a href="{{ route('cms.customers_trashed') }}" class="btn btn-danger btn-sm">
+          <a href="{{ route('cms.admins_trashed') }}" class="btn btn-danger btn-sm">
             Trashed
           </a>
         </div>
@@ -132,54 +113,63 @@
             <tr>
               <th style="width:80px" class="text-center">#</th>
               <th>Email</th>
+              <th>Name</th>         
               <th>Phone</th>
               <th style="width:180px" class="text-center">Created At</th>
               <th style="width:200px" class="text-center">Actions</th>
             </tr>
           </thead>
 
-          <tbody id="customerTable">
-            @forelse($customers as $customer)
+          <tbody id="adminTable">
+            @forelse($admins as $admin)
               <tr>
-                <td class="text-muted text-center">{{ $customer->id }}</td>
+                <td class="text-muted text-center">{{ $admin->id }}</td>
 
                 <td>
-                  <span class="customer-email">{{ $customer->email }}</span>
+                  <span class="admin-email">{{ $admin->email }}</span>
                 </td>
 
                 <td>
-                  {{ $customer->user->phone ?? '-' }}
+                  {{-- accessed via morph relation --}}
+                  {{ $admin->user->first_name ?? '-' }} {{ $admin->user->last_name ?? '' }}
+                </td>
+
+                <td>
+                  {{ $admin->user->phone ?? '-' }}
                 </td>
 
                 <td class="text-center">
                   <span class="email-badge">
-                    {{ $customer->created_at ? $customer->created_at->format('Y-m-d') : '-' }}
+                    {{ $admin->created_at ? $admin->created_at->format('Y-m-d') : '-' }}
                   </span>
                 </td>
 
                 <td class="text-center">
                   <div class="actions-group">
-                    <a href="{{ route('cms.customers.show', $customer->id) }}" class="action-btn action-show" data-toggle="tooltip" title="Show">
+                    <a href="{{ route('cms.admins.show', $admin->id) }}"
+                       class="action-btn action-show"
+                       data-toggle="tooltip" title="Show">
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.customers.edit', $customer->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Edit">
+                    <a href="{{ route('cms.admins.edit', $admin->id) }}"
+                       class="action-btn action-edit"
+                       data-toggle="tooltip" title="Edit">
                       <i class="fas fa-pen"></i>
                     </a>
 
-                    <form action="{{ route('cms.customers.destroy', $customer) }}" method="POST" class="m-0">
-                      @csrf
-                      @method('DELETE')
-                      <button type="button" onclick="performDestroy({{ $customer->id }}, this)" class="action-btn action-delete" data-toggle="tooltip" title="Delete">
-                        <i class="fas fa-trash"></i>
-                      </button>
-                    </form>
+                    <button type="button"
+                            onclick="performDestroy({{ $admin->id }}, this)"
+                            class="action-btn action-delete"
+                            data-toggle="tooltip" title="Delete">
+                      <i class="fas fa-trash"></i>
+                    </button>
                   </div>
                 </td>
               </tr>
             @empty
               <tr>
-                <td colspan="4" class="text-center text-muted p-4">No customers found</td>
+                <td colspan="6" class="text-center text-muted p-4">No admins found</td>
               </tr>
             @endforelse
           </tbody>
@@ -187,15 +177,10 @@
       </div>
     </div>
 
-    <div class="card-footer d-flex align-items-center flex-wrap" style="gap:10px;">
-      <small class="text-muted">
-        Total: {{ $customers->total() }} customers
-      </small>
-
-      <div class="ml-auto">
-        {{ $customers->links() }}
-      </div>
+    <div class="card-footer">
+      {{ $admins->links() }}
     </div>
+
   </div>
 </div>
 @endsection
@@ -204,16 +189,16 @@
 <script>
     $(function () { $('[data-toggle="tooltip"]').tooltip() })
 
-    $('#customerSearch').on('keyup', function () {
+    $('#adminSearch').on('keyup', function () {
         const q = $(this).val().toLowerCase();
-        $('#customerTable tr').each(function () {
+        $('#adminTable tr').each(function () {
             const text = $(this).text().toLowerCase();
             $(this).toggle(text.includes(q));
         });
     });
 
     function performDestroy(id, reference){
-        confirmDestroy('/cms/admin/customers/' + id, reference);
+        confirmDestroy('/cms/admin/admins/' + id, reference);
     }
 </script>
 @endsection

@@ -1,7 +1,7 @@
 @extends('cms.parent')
 
-@section('title','Show Customer')
-@section('main-title','Customers')
+@section('title','Show Admin')
+@section('main-title','Admins')
 @section('sub-title','Show')
 
 @section('styles')
@@ -89,7 +89,7 @@
       <div class="d-flex align-items-center" style="gap:10px;">
         <div class="icon-circle"><i class="fas fa-eye"></i></div>
         <div>
-          <h3 class="card-title mb-0" style="font-weight:700;">Customer Details</h3>
+          <h3 class="card-title mb-0" style="font-weight:700;">Admin Details</h3>
         </div>
       </div>
     </div>
@@ -98,28 +98,31 @@
 
       <div class="glow-info-box mb-4">
         <div class="glow-row">
-          <span class="glow-label">Customer ID:</span>
-          <span class="glow-value">{{ $customer->id }}</span>
+          <span class="glow-label">Admin ID:</span>
+          <span class="glow-value">{{ $admin->id }}</span>
         </div>
+
         <div class="glow-info-box mb-4">
         <div class="glow-row">
-          <span class="glow-label">Customer Name:</span>
-          <span class="glow-value">{{ $customer->user->first_name ?? '' }} {{ $customer->user->last_name ?? '' }}</span>
+          <span class="glow-label">Admin Name:</span>
+          <span class="glow-value">{{ $admin->user->first_name ?? '' }} {{ $admin->user->last_name ?? '' }}</span>
         </div>
 
         <div class="glow-row">
           <span class="glow-label">Email:</span>
-          <code class="email-code">{{ $customer->email }}</code>
+          <code class="email-code">{{ $admin->email }}</code>
         </div>
+
+
 
         <div class="glow-row">
           <span class="glow-label">Created At:</span>
-          <span class="glow-value">{{ $customer->created_at ? $customer->created_at->format('Y-m-d h:i A') : '-' }}</span>
+          <span class="glow-value">{{ $admin->created_at ? $admin->created_at->format('Y-m-d h:i A') : '-' }}</span>
         </div>
 
         <div class="glow-row">
           <span class="glow-label">Updated At:</span>
-          <span class="glow-value">{{ $customer->updated_at ? $customer->updated_at->format('Y-m-d h:i A') : '-' }}</span>
+          <span class="glow-value">{{ $admin->updated_at ? $admin->updated_at->format('Y-m-d h:i A') : '-' }}</span>
         </div>
       </div>
 

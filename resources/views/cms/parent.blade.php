@@ -305,7 +305,13 @@
     </li>
 
     <li class="nav-header">Content Management</li>
-
+    {{-- Admins --}}
+    <li class="nav-item">
+      <a href="{{ route('cms.admins.index') }}" class="nav-link">
+        <i class="nav-icon fas fa-user"></i>
+        <p>Admins</p>
+      </a>
+    </li>
     {{-- Categories --}}
     <li class="nav-item">
       <a href="{{ route('cms.categories.index') }}" class="nav-link">
