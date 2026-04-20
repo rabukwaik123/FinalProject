@@ -4,13 +4,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeamMemberController;
 use App\Http\Controllers\DashboardController;
-
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
@@ -59,12 +59,16 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::get('team_members_force/{id}', [TeamMemberController::class, 'force'])->name('team_members_force');
     Route::get('team_members_forceAll', [TeamMemberController::class, 'forceAll'])->name('team_members_forceAll');
 
-     Route::resource('admins', AdminController::class);
+
+    Route::resource('admins', AdminController::class);
     Route::post('admins_update/{id}', [AdminController::class, 'update'])->name('admins_update');
     Route::get('admins_trashed', [AdminController::class, 'trashed'])->name('admins_trashed');
     Route::get('admins_restore/{id}', [AdminController::class, 'restore'])->name('admins_restore');
     Route::get('admins_force/{id}', [AdminController::class, 'force'])->name('admins_force');
     Route::get('admins_force', [AdminController::class, 'forceAll'])->name('admins_forceAll');
+
+
+    Route::resource('contact-messages', ContactMessageController::class);
 
 
 });
