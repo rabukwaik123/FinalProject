@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum('order_status', ['pending', 'completed', 'cancelled']);
             $table->decimal('total_amount', 10, 2)->default(0.0);
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

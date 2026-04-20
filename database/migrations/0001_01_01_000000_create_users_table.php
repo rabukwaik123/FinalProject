@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('birth_day', 20)->nullable();
             $table->enum('status' , ['active','inactive']);
             $table->morphs('actor');
+            $table->softDeletes();
             $table->timestamps();
         });
 

@@ -31,7 +31,7 @@ class Product extends Model
     }
 
     public function cartItems(){
-        return $this->hasMany(CartItem::class, 'products_id');
+        return $this->hasMany(CartItem::class, 'product_id');
     }
     protected static function booted()
     {

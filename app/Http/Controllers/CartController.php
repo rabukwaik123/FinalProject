@@ -52,7 +52,7 @@ class CartController extends Controller
     // Create the cart
     $cart = Cart::create([
         'cart_status'  => $request->cart_status,
-        'customers_id'  => $request->customer_id, // matches your DB column name
+        'customer_id'  => $request->customer_id, // matches your DB column name
     ]);
 
     // Create cart items
@@ -61,8 +61,8 @@ class CartController extends Controller
         if (!$product) continue;
 
         $cartItem = new CartItem();
-        $cartItem->carts_id    = $cart->id;
-        $cartItem->products_id = $product->id;
+        $cartItem->cart_id    = $cart->id;
+        $cartItem->product_id = $product->id;
         $cartItem->quantity    = $item['quantity'];
         $cartItem->total_price = $product->price * $item['quantity'];
         $cartItem->save();
@@ -89,11 +89,11 @@ class CartController extends Controller
 
     $validator = Validator::make([
         'cart_status'  => $request->cart_status,
-        'customers_id' => $request->customers_id,
+        'customer_id' => $request->customer_id,
         'items'        => $items,
     ], [
         'cart_status'          => 'required|in:active,ordered,cancelled',
-        'customers_id'         => 'required|exists:customers,id',
+        'customer_id'         => 'required|exists:customers,id',
         'items'                => 'nullable|array',
         'items.*.product_id'   => 'required|exists:products,id',
         'items.*.quantity'     => 'required|integer|min:1',
@@ -109,7 +109,7 @@ class CartController extends Controller
     // Update the cart
     $cart = Cart::findOrFail($id);
     $cart->cart_status  = $request->cart_status;
-    $cart->customers_id  = $request->customers_id;
+    $cart->customer_id  = $request->customer_id;
     $cart->save();
 
     // Delete old items and re-insert fresh ones
@@ -119,9 +119,9 @@ class CartController extends Controller
         $product = Product::find($item['product_id']);
         if (!$product) continue;
 
-        $cartItem              = new CartItem();
-        $cartItem->carts_id    = $cart->id;
-        $cartItem->products_id = $product->id;
+        $cartItem = new CartItem();
+        $cartItem->cart_id    = $cart->id;
+        $cartItem->product_id = $product->id;
         $cartItem->quantity    = $item['quantity'];
         $cartItem->total_price = $product->price * $item['quantity'];
         $cartItem->save();

@@ -83,11 +83,11 @@
 
         {{-- Customer --}}
         <div class="form-group">
-          <label for="customers_id" style="font-weight:600;">Customer</label>
-          <select id="customers_id" name="customers_id" class="form-control">
+          <label for="customer_id" style="font-weight:600;">Customer</label>
+          <select id="customer_id" name="customer_id" class="form-control">
             @foreach($customers as $customer)
               <option value="{{ $customer->id }}"
-                {{ $customer->id == $cart->customers_id ? 'selected' : '' }}>
+                {{ $customer->id == $cart->customer_id ? 'selected' : '' }}>
                 {{ $customer->email }}
               </option>
             @endforeach
@@ -178,7 +178,7 @@
   function performUpdate(id){
     let formData = new FormData();
 
-    formData.append('customers_id', document.getElementById('customers_id').value);
+    formData.append('customer_id', document.getElementById('customer_id').value);
     formData.append('cart_status',  document.getElementById('cart_status').value);
 
     let items = [];
