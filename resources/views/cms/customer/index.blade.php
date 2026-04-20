@@ -132,6 +132,7 @@
             <tr>
               <th style="width:80px" class="text-center">#</th>
               <th>Email</th>
+              <th>Name</th>
               <th>Phone</th>
               <th style="width:180px" class="text-center">Created At</th>
               <th style="width:200px" class="text-center">Actions</th>
@@ -146,6 +147,11 @@
                 <td>
                   <span class="customer-email">{{ $customer->email }}</span>
                 </td>
+                <td>
+                  {{-- accessed via morph relation --}}
+                  {{ $customer->user->first_name ?? '-' }} {{ $customer->user->last_name ?? '' }}
+                </td>
+
 
                 <td>
                   {{ $customer->user->phone ?? '-' }}

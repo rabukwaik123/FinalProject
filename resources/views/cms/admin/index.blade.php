@@ -109,11 +109,12 @@
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover table-striped mb-0">
+            
           <thead>
             <tr>
               <th style="width:80px" class="text-center">#</th>
               <th>Email</th>
-              <th>Name</th>         
+              <th>Name</th>
               <th>Phone</th>
               <th style="width:180px" class="text-center">Created At</th>
               <th style="width:200px" class="text-center">Actions</th>

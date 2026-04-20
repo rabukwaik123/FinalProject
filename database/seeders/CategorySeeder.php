@@ -15,17 +15,17 @@ class CategorySeeder extends Seeder
     {
         Category::updateOrCreate(
             ['category_name' => 'Hair'],
-            ['image_path' => 'storage/images/category/hair.jpg']
+            ['image_path' => 'cms/dist/img/category/hair.jpg']
         );
 
         Category::updateOrCreate(
             ['category_name' => 'Make up'],
-            ['image_path' => 'storage/images/category/Makeup.jpg']
+            ['image_path' => 'cms/dist/img/category/Makeup.jpg']
         );
 
         Category::updateOrCreate(
             ['category_name' => 'Skin care'],
-            ['image_path' => 'storage/images/category/skincare.jpg']
+            ['image_path' => 'cms/dist/img/category/skincare.jpg']
         );
         // Category::factory(20)->create();
     }
