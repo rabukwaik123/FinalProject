@@ -22,4 +22,8 @@ class Brand extends Model
             $brand->products()->delete();
         });
     }
+
+    public function contactMessages(){
+    return $this->belongsToMany(ContactMessage::class);
+    }
 }
