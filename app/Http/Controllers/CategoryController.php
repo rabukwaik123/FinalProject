@@ -47,10 +47,10 @@ class CategoryController extends Controller
             $categories->category_name = $request->input('category_name');
 
             if ($request->hasFile('image_path')) {
-                $file = $request->file('image_path');
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('cms/dist/img/category/'), $filename);
-                $categories->image_path='cms/dist/img/category/'.$filename;
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/category'), $imageName);
+                $categories->image_path = 'storage/images/category/' . $imageName;
             }
 
             $issaved = $categories->save();
@@ -100,20 +100,20 @@ class CategoryController extends Controller
             // $categories->image_path = $request->input('image_path');
 
             if ($request->hasFile('image_path')) {
-                $file = $request->file('image_path');
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('cms/dist/img/category/'), $filename);
-                $categories->image_path='cms/dist/img/category/'.$filename;
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/category'), $imageName);
+                $categories->image_path = 'storage/images/category/' . $imageName;
             }
 
             $isupdated = $categories->save();
 
-            return['redirect'=>route('cms.categories.index')];
-            // return response()->json([
-            //     'icon' => 'success',
-            //     'title' => 'Updated is successfully',
-            //     // 'redirect' => route('cms.categories.index'),
-            // ], 200);
+            // return['redirect'=>route('cms.categories.index')];
+            return response()->json([
+                'icon' => 'success',
+                'title' => 'Updated is successfully',
+                'redirect' => route('cms.categories.index'),
+            ], 200);
     }}
 
 

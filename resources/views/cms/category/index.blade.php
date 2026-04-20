@@ -160,7 +160,7 @@
 
                 <td class="text-center">
                   @if(!empty($category->image_path))
-                    <img src="{{ asset($category->image_path) }}" class="cat-thumb" alt="category">
+                    <img src="{{ asset($category->image_path) }}" class="img-circle img-bordered-sm" width="50" height="50" alt="category">
                   @else
                     <div class="cat-thumb-placeholder">No image</div>
                   @endif

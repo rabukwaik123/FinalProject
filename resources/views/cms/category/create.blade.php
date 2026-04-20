@@ -98,7 +98,7 @@
 
         <div class="form-group mt-3">
           <label for="image_path" style="font-weight:600;">Category Image</label>
-          <input type="file" id="image_path" name="image_path" class="form-control ">
+          <input type="file" id="image_path" name="image_path" class="form-control " accept="image/*">
           <small class="text-muted">JPG/PNG/WebP — Max 2MB.</small>
         </div>
 
@@ -123,9 +123,7 @@
     function performStore(){
         let formData = new FormData();
         formData.append('category_name' ,document.getElementById('category_name').value);
-        img = document.getElementById('image_path');
-        formData.append('image_path', img.files[0]);
-
+        formData.append('image_path',document.getElementById('image_path').files[0])
         store('/cms/admin/categories', formData)
     }
 </script>

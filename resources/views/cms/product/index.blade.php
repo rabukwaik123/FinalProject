@@ -181,11 +181,11 @@
                 <td class="text-muted text-center">{{ $product->id }}</td>
 
                 <td class="text-center">
-                @if(!empty($product->image_path))
-                    <img src="{{ asset($product->image_path) }}" class="cat-thumb" alt="product">
-                @else
+                  @if(!empty($product->image_path))
+                    <img src="{{ asset($product->image_path) }}" class="img-circle img-bordered-sm" width="50" height="50" alt="product">
+                  @else
                     <div class="cat-thumb-placeholder">No image</div>
-                @endif
+                  @endif
                 </td>
 
                 <td>

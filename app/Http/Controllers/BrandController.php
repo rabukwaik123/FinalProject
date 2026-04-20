@@ -87,7 +87,11 @@ class BrandController extends Controller
 
             $isupdated = $brands->save();
 
-            return['redirect'=>route('cms.brands.index')];
+            return response()->json([
+                'icon' => 'success',
+                'title' => 'Updated is successfully',
+                'redirect' => route('cms.brands.index'),
+            ], 200);
     }}
 
     /**

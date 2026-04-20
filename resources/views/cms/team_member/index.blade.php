@@ -89,7 +89,7 @@
   .member-thumb{
     width: 50px;
     height: 50px;
-    border-radius: 50%; 
+    border-radius: 50%;
     object-fit: cover;
     border: 1px solid rgba(0,0,0,.08);
     background: #fff;
@@ -160,9 +160,9 @@
 
                 <td class="text-center">
                   @if(!empty($member->image_path))
-                    <img src="{{ asset($member->image_path) }}" class="member-thumb" alt="member">
+                    <img src="{{ asset($member->image_path) }}" class="img-circle img-bordered-sm" width="50" height="50" alt="member">
                   @else
-                    <div class="member-thumb-placeholder">No image</div>
+                    <div class="cat-thumb-placeholder">No image</div>
                   @endif
                 </td>
 

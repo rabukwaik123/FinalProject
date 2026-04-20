@@ -72,7 +72,7 @@
     flex: 0 0 auto;
   }
 
-  
+
 </style>
 @endsection
 
@@ -100,7 +100,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Categories</div>
-          <div class="stat-value">{{ $stats['categories'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['categories'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-tags"></i></div>
       </div>
@@ -110,7 +110,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Brands</div>
-          <div class="stat-value">{{ $stats['brands'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['brands'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-copyright"></i></div>
       </div>
@@ -120,7 +120,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Products</div>
-          <div class="stat-value">{{ $stats['products'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['products'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-box-open"></i></div>
       </div>
@@ -130,7 +130,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Orders</div>
-          <div class="stat-value">{{ $stats['orders'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['orders'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
       </div>
@@ -143,7 +143,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Customers</div>
-          <div class="stat-value">{{ $stats['customers'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['customers'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-user"></i></div>
       </div>
@@ -153,7 +153,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Carts</div>
-          <div class="stat-value">{{ $stats['carts'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['carts'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
       </div>
@@ -163,7 +163,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Messages</div>
-          <div class="stat-value">{{ $stats['messages'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['messages'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-envelope"></i></div>
       </div>
@@ -173,7 +173,7 @@
       <div class="stat-tile">
         <div>
           <div class="stat-label">Team Members</div>
-          <div class="stat-value">{{ $stats['team'] ?? 0 }}</div>
+          <div class="stat-value">{{ $dashboards['team'] ?? 0 }}</div>
         </div>
         <div class="stat-icon"><i class="fas fa-users"></i></div>
       </div>

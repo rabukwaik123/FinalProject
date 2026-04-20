@@ -178,12 +178,7 @@
         formData.append('category_id', document.getElementById('category_id').value);
         formData.append('brand_id', document.getElementById('brand_id').value);
         formData.append('is_active', document.getElementById('is_active').value);
-
-        let img = document.getElementById('image_path');
-        if (img && img.files && img.files.length > 0) {
-            formData.append('image_path', img.files[0]);
-        }
-
+        formData.append('image_path',document.getElementById('image_path').files[0])
         storeRoute('/cms/admin/products_update/' + id , formData)
     }
 </script>

@@ -13,7 +13,7 @@ class TeamMemberController extends Controller
      */
     public function index()
     {
-        $team_members = TeamMember::orderBy('id','desc')->paginate(3);
+        $team_members = TeamMember::orderBy('id','desc')->paginate(4);
         return view('cms.team_member.index', compact('team_members'));
     }
 
@@ -50,10 +50,10 @@ class TeamMemberController extends Controller
             $team_member->bio = $request->input('bio');
 
             if ($request->hasFile('image_path')) {
-                $file = $request->file('image_path');
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('cms/dist/img/team/'), $filename);
-                $team_member->image_path = 'cms/dist/img/team/'.$filename;
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/team_member'), $imageName);
+                $team_member->image_path = 'storage/images/team_member/' . $imageName;
             }
 
             $issaved = $team_member->save();
@@ -110,10 +110,10 @@ class TeamMemberController extends Controller
             $team_member->bio = $request->input('bio');
 
             if ($request->hasFile('image_path')) {
-                $file = $request->file('image_path');
-                $filename = time().'_'.$file->getClientOriginalName();
-                $file->move(public_path('cms/dist/img/team/'), $filename);
-                $team_member->image_path = 'cms/dist/img/team/'.$filename;
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/team_member'), $imageName);
+                $team_member->image_path = 'storage/images/team_member/' . $imageName;
             }
 
             $isupdated = $team_member->save();

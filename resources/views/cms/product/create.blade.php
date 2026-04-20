@@ -146,7 +146,7 @@
 
         <div class="form-group mt-3">
           <label for="image_path" style="font-weight:600;">Product Image</label>
-          <input type="file" id="image_path" name="image_path" class="form-control">
+          <input type="file" id="image_path" name="image_path" class="form-control"  accept="image/*">
           <small class="text-muted">JPG/PNG/WebP — Max 2MB.</small>
         </div>
       </div>
@@ -177,10 +177,8 @@
         formData.append('category_id', document.getElementById('category_id').value);
         formData.append('brand_id', document.getElementById('brand_id').value);
 
-        let img = document.getElementById('image_path');
-        if (img && img.files && img.files.length > 0) {
-            formData.append('image_path', img.files[0]);
-        }
+        formData.append('image_path',document.getElementById('image_path').files[0])
+
 
         store('/cms/admin/products', formData)
     }

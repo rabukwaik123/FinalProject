@@ -54,7 +54,7 @@
     .preview-img{
         width: 150px;
         height: 150px;
-        border-radius: 50%; 
+        border-radius: 50%;
         object-fit: cover;
         border: 2px solid var(--glow-pink);
         background: #fff;
@@ -100,7 +100,7 @@
                     <label style="font-weight:600;" class="d-block text-left">Current Profile Photo</label>
 
                     @if(!empty($team_member->image_path))
-                        <img src="{{ asset($team_member->image_path) }}" alt="member" class="preview-img mb-2">
+                        <img src="{{ asset($team_member->image_path) }}" alt="member" class="preview-img mb-2" accept="image/*">
                     @else
                         <div class="text-muted">No photo uploaded yet</div>
                     @endif
@@ -135,15 +135,8 @@
         formData.append('name', document.getElementById('name').value);
         formData.append('job_title', document.getElementById('job_title').value);
         formData.append('bio', document.getElementById('bio').value);
-
-
-        let img = document.getElementById('image_path');
-        if (img && img.files && img.files.length > 0) {
-            formData.append('image_path', img.files[0]);
-        }
-
-       
-       store('/cms/admin/team_members_update/' + id, formData);
+        formData.append('image_path',document.getElementById('image_path').files[0])
+        store('/cms/admin/team_members_update/' + id, formData);
     }
 </script>
 @endsection

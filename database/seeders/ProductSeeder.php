@@ -17,6 +17,13 @@ class ProductSeeder extends Seeder
     {
         $categories = Category::pluck('id')->toArray();
         $brands = Brand::pluck('id')->toArray();
+        $images = [
+            'storage/images/product/product1.jpg',
+            'storage/images/product/product2.jpg',
+            'storage/images/product/product3.jpg',
+            'storage/images/product/product4.jpg',
+            'storage/images/product/product5.jpg',
+        ];
 
         for ($i = 1; $i <= 20; $i++) {
             Product::create([
@@ -26,8 +33,8 @@ class ProductSeeder extends Seeder
                 'category_id' => $categories[array_rand($categories)],
                 'brand_id' => $brands[array_rand($brands)],
                 'is_active' => rand(0,1),
-                'image_path' => null, // or fake path
-            ]);
+                'image_path' => $images[array_rand($images)]
+                ]);
     }
 }
 }

@@ -42,32 +42,104 @@
     color:#6c757d;
   }
 
-  .table-hover tbody tr:hover{ background: var(--soft-hover); }
+  .table td,
+  .table th{
+    vertical-align: middle;
+  }
 
-  .order-info{ font-weight: 600; color: #111; }
+  .table-hover tbody tr:hover{
+    background: var(--soft-hover);
+  }
+
+  .table thead th:nth-child(1), .table tbody td:nth-child(1),
+  .table thead th:nth-child(2), .table tbody td:nth-child(2),
+  .table thead th:nth-child(3), .table tbody td:nth-child(3),
+  .table thead th:nth-child(4), .table tbody td:nth-child(4),
+  .table thead th:nth-child(5), .table tbody td:nth-child(5){
+    border-right: 1px solid var(--soft-line);
+  }
+
+  .order-info{
+    font-weight: 600;
+    color: #111;
+  }
 
   .action-btn{
-    width: 34px; height: 34px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
     border: 1px solid transparent;
+    transition: .15s ease-in-out;
+  }
+  .action-btn i{
+    font-size: 14px;
   }
 
-  .action-show{ background: rgba(108,117,125,.12); }
-  .action-edit{ background: rgba(201,124,157,.16); }
-  .action-delete{ background: rgba(230,81,81,.12); }
+  .action-show{
+    background: rgba(108,117,125,.12);
+    color:#6c757d;
+    border-color: rgba(108,117,125,.18);
+  }
+  .action-show:hover{
+    background: rgba(108,117,125,.22);
+  }
+
+  .action-edit{
+    background: rgba(201,124,157,.16);
+    color: var(--glow-pink-dark);
+    border-color: rgba(201,124,157,.22);
+  }
+  .action-edit:hover{
+    background: rgba(201,124,157,.28);
+  }
+
+  .action-delete{
+    background: rgba(230,81,81,.12);
+    color:#e65151;
+    border-color: rgba(230,81,81,.18);
+  }
+  .action-delete:hover{
+    background: rgba(230,81,81,.22);
+  }
 
   .actions-group{
     display: inline-flex;
     gap: 8px;
+    align-items: center;
     justify-content: center;
   }
 
-  .badge-warning{ background:#ffc107; }
-  .badge-success{ background:#28a745; }
-  .badge-danger{ background:#dc3545; }
+  .pagination .page-link{
+    color: var(--glow-pink-dark);
+  }
+  .pagination .page-item.active .page-link{
+    background-color: var(--glow-pink);
+    border-color: var(--glow-pink);
+    color: #fff;
+  }
+  .pagination .page-link:focus{
+    box-shadow: none;
+  }
+  .pagination .page-item.disabled .page-link{
+    color: #aaa;
+  }
+
+  .badge-warning{
+    background:#ffc107;
+    color:#111;
+  }
+  .badge-success{
+    background:#28a745;
+    color:#fff;
+  }
+  .badge-danger{
+    background:#dc3545;
+    color:#fff;
+  }
 
   .order-badge{
     background: rgba(201,124,157,.12);
@@ -89,7 +161,9 @@
     <div class="card-header">
       <div class="d-flex flex-wrap justify-content-between align-items-center">
 
-        <h3 class="card-title mb-0">Orders</h3>
+        <div>
+          <h3 class="card-title mb-0">Orders</h3>
+        </div>
 
         <div class="d-flex align-items-center" style="gap:10px;">
           <div class="input-group input-group-sm" style="width: 240px;">
@@ -102,6 +176,7 @@
           <a href="{{ route('cms.orders.create') }}" class="btn btn-glow-pink btn-sm">
             <i class="fas fa-plus"></i> Add new order
           </a>
+
           <a href="{{ route('cms.orders_trashed') }}" class="btn btn-danger btn-sm">
             Trashed
           </a>
@@ -116,12 +191,12 @@
         <table class="table table-hover table-striped mb-0">
           <thead>
             <tr>
-              <th class="text-center">#</th>
+              <th style="width:80px" class="text-center">#</th>
               <th>Customer</th>
-              <th>Status</th>
-              <th>Total</th>
-              <th class="text-center">Created At</th>
-              <th class="text-center">Actions</th>
+              <th style="width:180px">Status</th>
+              <th style="width:180px">Total</th>
+              <th style="width:180px" class="text-center">Created At</th>
+              <th style="width:200px" class="text-center">Actions</th>
             </tr>
           </thead>
 
@@ -160,21 +235,23 @@
                 <td class="text-center">
                   <div class="actions-group">
 
-                    <a href="{{ route('cms.orders.show', $order->id) }}" class="action-btn action-show">
+                    <a href="{{ route('cms.orders.show', $order->id) }}" class="action-btn action-show" data-toggle="tooltip" title="Show">
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.orders.edit', $order->id) }}" class="action-btn action-edit">
+                    <a href="{{ route('cms.orders.edit', $order->id) }}" class="action-btn action-edit" data-toggle="tooltip" title="Edit">
                       <i class="fas fa-pen"></i>
                     </a>
 
-                    <form action="{{ route('cms.orders.destroy', $order->id) }}" method="POST">
+                    <form action="{{ route('cms.orders.destroy', $order->id) }}" method="POST" class="m-0">
                       @csrf
                       @method('DELETE')
 
                       <button type="button"
                               onclick="performDestroy({{ $order->id }}, this)"
-                              class="action-btn action-delete">
+                              class="action-btn action-delete"
+                              data-toggle="tooltip"
+                              title="Delete">
                         <i class="fas fa-trash"></i>
                       </button>
                     </form>

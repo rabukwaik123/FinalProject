@@ -61,12 +61,11 @@ class ProductController extends Controller
             $product->is_active = $request->boolean('is_active');
 
             if ($request->hasFile('image_path')) {
-                $file = $request->file('image_path');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->move(public_path('cms/dist/img/products/'), $filename);
-                $product->image_path = 'cms/dist/img/products/' . $filename;
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/product'), $imageName);
+                $product->image_path = 'storage/images/product/' . $imageName;
             }
-
             $product->save();
 
             return response()->json([
@@ -128,16 +127,20 @@ class ProductController extends Controller
                 $product->brand_id = $request->input('brand_id');
                 $product->is_active = $request->boolean('is_active');
 
-                if ($request->hasFile('image_path')) {
-                    $file = $request->file('image_path');
-                    $filename = time() . '_' . $file->getClientOriginalName();
-                    $file->move(public_path('cms/dist/img/products/'), $filename);
-                    $product->image_path = 'cms/dist/img/products/' . $filename;
-                }
+            if ($request->hasFile('image_path')) {
+                $image = $request->file('image_path');
+                $imageName = time().'image.'.$image->getClientOriginalExtension();
+                $image->move(public_path('storage/images/category'), $imageName);
+                $product->image_path = 'storage/images/category/' . $imageName;
+            }
 
                 $product->save();
 
-                return['redirect'=>route('cms.products.index')];
+                return response()->json([
+                'icon' => 'success',
+                'title' => 'Updated is successfully',
+                'redirect' => route('cms.products.index'),
+            ], 200);
         }
 
     }

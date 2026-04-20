@@ -103,7 +103,7 @@
 
         <div class="form-group mt-3">
           <label for="image_path" style="font-weight:600;">Change Image</label>
-          <input type="file" id="image_path" name="image_path" value="image_path"class="form-control">
+          <input type="file" id="image_path" name="image_path"  accept="image/*" value="image_path"class="form-control">
           <small class="text-muted">JPG/PNG/WebP — Max 2MB.</small>
         </div>
 
@@ -128,10 +128,7 @@
     function performUpdate(id){
         let formData = new FormData();
         formData.append('category_name' ,document.getElementById('category_name').value);
-        img = document.getElementById('image_path');
-        if (img && img.files && img.files.length > 0) {
-            formData.append('image_path', img.files[0]);
-        }
+        formData.append('image_path',document.getElementById('image_path').files[0])
 
         storeRoute('/cms/admin/categories_update/'+id , formData)
     }

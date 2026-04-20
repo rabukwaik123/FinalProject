@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TeamMemberController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('/', function () {
@@ -16,7 +17,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('cms/admin')->name('cms.')->group(function(){
-    Route::view('/','cms.temp')->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('categories', CategoryController::class);
     Route::post('categories_update/{id}',[CategoryController::class ,'update'])->name('categories_update');
