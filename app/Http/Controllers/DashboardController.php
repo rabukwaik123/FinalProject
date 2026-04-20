@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
-// use App\Models\ContactMessage;
+use App\Models\ContactMessage;
 use App\Models\TeamMember;
 
 class DashboardController extends Controller
@@ -27,7 +27,7 @@ class DashboardController extends Controller
             'orders' => Order::count(),
             'customers' => Customer::count(),
             'carts' => Cart::count(),
-            // 'messages' => ContactMessage::count(),
+            'messages' => ContactMessage::count(),
             'team' => TeamMember::count(),
         ];
 
