@@ -55,13 +55,14 @@
   }
 
   .cat-name{ font-weight: 600; color: #111; }
+
   .action-btn{
     width: 34px; height: 34px; padding: 0;
     display: inline-flex; align-items: center; justify-content: center;
     border-radius: 999px; border: 1px solid transparent;
     transition: .15s ease-in-out;
   }
-.action-btn i{ font-size: 14px; }
+  .action-btn i{ font-size: 14px; }
 
   .action-show{ background: rgba(108,117,125,.12); color:#6c757d; border-color: rgba(108,117,125,.18); }
   .action-show:hover{ background: rgba(108,117,125,.22); }
@@ -72,7 +73,7 @@
   .action-delete{ background: rgba(230,81,81,.12); color:#e65151; border-color: rgba(230,81,81,.18); }
   .action-delete:hover{ background: rgba(230,81,81,.22); }
 
-  .actions-group{
+  {{--  .actions-group{
     display: inline-flex;
     gap: 8px;
     align-items: center;
@@ -152,9 +153,9 @@
             </div>
           </div>
 
-          <a href="{{ route('cms.createProduct' ,$id) }}" class="btn btn-glow-pink btn-sm" type="submit">
+          {{--  <a href="{{ route('cms.createProduct') }}" class="btn btn-glow-pink btn-sm" type="submit">
             <i class="fas fa-plus"></i> Add new product
-          </a>
+          </a>  --}}
         </div>
       </div>
     </div>
@@ -171,7 +172,7 @@
               <th>Brand Name</th>
               <th>Admin Name</th>
               <th style="width:110px" class="text-center">Active</th>
-              <th style="width:200px" class="text-center">Actions</th>
+              {{--  <th style="width:200px" class="text-center">Actions</th>  --}}
             </tr>
           </thead>
 
@@ -207,7 +208,7 @@
                   @endif
                 </td>
 
-                <td class="text-center">
+                {{--  <td class="text-center">
                   <div class="actions-group">
                     <a href="{{ route('cms.products.show', $product->id) }}" class="action-btn action-show" data-toggle="tooltip" title="Show">
                       <i class="fas fa-eye"></i>
@@ -229,7 +230,7 @@
                       </button>
                     </form>
                   </div>
-                </td>
+                </td>  --}}
             </tr>
             @empty
             <tr>
@@ -241,16 +242,10 @@
       </div>
     </div>
 
-    <div class="card-footer d-flex justify-content-between align-items-center">
-        <a href="{{ route('cms.admins.index' , $id) }}" class="btn btn-light" style="border:1px solid var(--soft-line); border-radius:10px;">
-          <i class="fas fa-arrow-left"></i> Back
-        </a>
-    </div>
     <div class="card-footer d-flex align-items-center flex-wrap" style="gap:10px;">
       <small class="text-muted">
         Total: {{ $products->total() }} products
       </small>
-
 
       <div class="ml-auto">
         {{ $products->links() }}

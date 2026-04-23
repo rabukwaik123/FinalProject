@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Category;
@@ -13,10 +14,24 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    public function indexProduct($id)
+    {
+        $products = Product::where('admin_id' , $id)->with(['category', 'brand' , 'admin'])->orderBy('id', 'desc')->paginate(10);
+        return response()->view('cms.product.index', compact('products' , 'id'));
+    }
+
+    public function createProduct($id)
+    {
+        $categories = Category::all();
+        $brands = Brand::all();
+        $admins = Admin::all();
+        return response()->view('cms.product.create', compact('categories', 'brands' ,'admins', 'id'));
+    }
     public function index()
     {
         $products = Product::with(['category', 'brand'])->orderBy('id', 'desc')->paginate(10);
-        return response()->view('cms.product.index', compact('products'));
+        return response()->view('cms.product.indexAll', compact('products'));
     }
 
     /**
@@ -41,6 +56,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'admin_id' => 'required|exists:admins,id',
             'image_path' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'nullable|boolean',
         ]);
@@ -58,13 +74,14 @@ class ProductController extends Controller
             $product->price = $request->input('price');
             $product->category_id = $request->input('category_id');
             $product->brand_id = $request->input('brand_id');
+            $product->admin_id = $request->input('admin_id');
             $product->is_active = $request->boolean('is_active');
 
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('storage/images/product'), $imageName);
-                $product->image_path = 'storage/images/product/' . $imageName;
+                $image->move(public_path('cms/dist/img/product'), $imageName);
+                $product->image_path = 'cms/dist/img/product' . $imageName;
             }
             $product->save();
 
@@ -81,7 +98,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $products = Product::with(['category', 'brand'])->findOrFail($id);
+        $products = Product::with(['category', 'brand' ,'admin'])->findOrFail($id);
         return view('cms.product.show', compact('products'));
     }
 
@@ -93,8 +110,8 @@ class ProductController extends Controller
         $products = Product::findOrFail($id);
         $categories = Category::all();
         $brands = Brand::all();
-
-        return response()->view('cms.product.edit', compact('products', 'categories', 'brands'));
+        $admins = Admin::all();
+        return response()->view('cms.product.edit', compact('products', 'categories', 'brands' , 'admins' ,'id'));
     }
 
     /**
@@ -108,6 +125,7 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'admin_id' => 'required|exists:admins,id',
             'image_path' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'is_active' => 'nullable|boolean',
         ]);
@@ -125,13 +143,14 @@ class ProductController extends Controller
                 $product->price = $request->input('price');
                 $product->category_id = $request->input('category_id');
                 $product->brand_id = $request->input('brand_id');
+                $product->admin_id = $request->input('admin_id');
                 $product->is_active = $request->boolean('is_active');
 
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('storage/images/category'), $imageName);
-                $product->image_path = 'storage/images/category/' . $imageName;
+                $image->move(public_path('cms/dist/img/product'), $imageName);
+                $product->image_path = 'cms/dist/img/product' . $imageName;
             }
 
                 $product->save();

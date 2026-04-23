@@ -109,13 +109,14 @@
     <div class="card-body p-0">
       <div class="table-responsive">
         <table class="table table-hover table-striped mb-0">
-            
+
           <thead>
             <tr>
               <th style="width:80px" class="text-center">#</th>
               <th>Email</th>
               <th>Name</th>
               <th>Phone</th>
+              <th>Products</th>
               <th style="width:180px" class="text-center">Created At</th>
               <th style="width:200px" class="text-center">Actions</th>
             </tr>
@@ -137,6 +138,10 @@
 
                 <td>
                   {{ $admin->user->phone ?? '-' }}
+                </td>
+
+                <td>
+                  <a href="{{ route('cms.indexProduct' , ['id'=>$admin->id]) }}" class="btn btn-glow-pink btn-sm">({{ $admin->products_count }})product/s</a>
                 </td>
 
                 <td class="text-center">

@@ -125,6 +125,21 @@
         </select>
         </div>
 
+
+        {{--  <div class="form-group col-md-6">
+            <label for="admin_id" style="font-weight:600;">Admin Name</label>
+            <select id="admin_id" name="brand_id" class="form-control">
+              <option value="">Select Admin</option>
+              @foreach($admins as $admin)
+                <option value="{{ $admin->id }}">{{ $admin->user->first_name }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>  --}}
+
+
+        <input type="text" name="admin_id" id="admin_id" value="{{ $id }}" class="form-control form-control-solid" hidden/>
+
         <div class="form-group mt-3">
         <label for="is_active" style="font-weight:600;">is_active</label>
         <select id="is_active" name="is_active" class="form-control">
@@ -177,6 +192,7 @@
         formData.append('price', document.getElementById('price').value);
         formData.append('category_id', document.getElementById('category_id').value);
         formData.append('brand_id', document.getElementById('brand_id').value);
+        formData.append('admin_id', document.getElementById('admin_id').value);
         formData.append('is_active', document.getElementById('is_active').value);
         formData.append('image_path',document.getElementById('image_path').files[0])
         storeRoute('/cms/admin/products_update/' + id , formData)

@@ -141,6 +141,11 @@
         </div>
 
         <div class="glow-row">
+          <span class="glow-label">Admin:</span>
+          <span class="glow-value">{{ $products->admin->user->first_name ?? 'N/A' }}</span>
+        </div>
+
+        <div class="glow-row">
           <span class="glow-label">Status:</span>
           @if($products->is_active)
             <span class="status-badge status-active">Active</span>

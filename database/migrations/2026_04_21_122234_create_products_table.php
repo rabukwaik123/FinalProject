@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreign('category_id')->on('categories')->references('id')->cascadeOnDelete();
             $table->foreignId('brand_id');
             $table->foreign('brand_id')->on('brands')->references('id')->cascadeOnDelete();
+            $table->foreignId('admin_id');
+            $table->foreign('admin_id')->on('admins')->references('id')->cascadeOnDelete();
             $table->timestamps();
         });
     }

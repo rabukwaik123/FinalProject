@@ -14,9 +14,15 @@ class Admin extends Model
         'password',
     ];
 
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'admin_id');
+    }
     public function user(){
         return $this->morphOne(User::class,'actor', 'actor_type', 'actor_id', 'id');
     }
+
     protected static function booted()
     {
         // Soft delete → soft delete the user

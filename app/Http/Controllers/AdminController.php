@@ -14,7 +14,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $admins = Admin::with('user')->paginate(10);
+        $admins = Admin::withCount('user' , 'products')->paginate(10);
 
          return view('cms.admin.index', compact('admins'));
     }

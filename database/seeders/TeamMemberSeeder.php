@@ -18,14 +18,14 @@ class TeamMemberSeeder extends Seeder
             ['name' => 'Ruba Kwaik'],
             [
                 'job_title' => 'Project Manager',
-                'image_path' => 'storage/images/team_member/1.jpg',
+                'image_path' => 'cms/dist/img/team_member/1.jpg',
             ]
         );
         TeamMember::updateOrCreate(
             ['name' => 'Doaa Kwaik'],
             [
                 'job_title' => 'Frontend Developer',
-                'image_path' => 'storage/images/team_member/2.jpg',
+                'image_path' => 'cms/dist/img/team_member/2.jpg',
             ]
         );
 
@@ -33,7 +33,7 @@ class TeamMemberSeeder extends Seeder
             ['name' => 'Sara Alsalout'],
             [
                 'job_title' => 'Backend Developer',
-                'image_path' => 'storage/images/team_member/3.png',
+                'image_path' => 'cms/dist/img/team_member/3.png',
             ]
         );
 
@@ -41,7 +41,7 @@ class TeamMemberSeeder extends Seeder
             ['name' => 'Ahmed Ali'],
             [
                 'job_title' => 'UI/UX Designer',
-                'image_path' => 'storage/images/team_member/4.jpg',
+                'image_path' => 'cms/dist/img/team_member/4.jpg',
             ]
         );
 

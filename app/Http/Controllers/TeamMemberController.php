@@ -52,8 +52,8 @@ class TeamMemberController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('storage/images/team_member'), $imageName);
-                $team_member->image_path = 'storage/images/team_member/' . $imageName;
+                $image->move(public_path('cms/dist/img/team_member'), $imageName);
+                $team_member->image_path = 'cms/dist/img/team_member' . $imageName;
             }
 
             $issaved = $team_member->save();
@@ -112,8 +112,8 @@ class TeamMemberController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('storage/images/team_member'), $imageName);
-                $team_member->image_path = 'storage/images/team_member/' . $imageName;
+                $image->move(public_path('cms/dist/img/team_member'), $imageName);
+                $team_member->image_path = 'cms/dist/img/team_member' . $imageName;
             }
 
             $isupdated = $team_member->save();

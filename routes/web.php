@@ -69,6 +69,7 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
 
 
     Route::resource('contact-messages', ContactMessageController::class);
-
+    Route::get('/create/products/{id}' , [ProductController::class, 'createProduct'])->name('createProduct');
+    Route::get('/index/products/{id}' , [ProductController::class, 'indexProduct'])->name('indexProduct');
 
 });

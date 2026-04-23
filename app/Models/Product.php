@@ -30,6 +30,10 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
     public function cartItems(){
         return $this->hasMany(CartItem::class, 'product_id');
     }

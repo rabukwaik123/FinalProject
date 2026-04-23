@@ -1,0 +1,15 @@
+relation tables
+1.make index functions with Parameter $id
+
+    public function indexItems($id)
+    {
+        $item = Item::where('invoice_id' , '$id')->orderBy('created_at', 'desc)->paginate(5);
+        return response()->view('dashboard.items.create' , compact('item' ,'id'));
+    }
+
+2.make create functions with Parameter $id
+
+    public function createItems($id)
+    {
+        return response()->view('dashboard.items.create' , compact('id'));
+    }

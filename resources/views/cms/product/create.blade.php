@@ -144,15 +144,29 @@
           </div>
         </div>
 
+        {{--  <div class="form-group col-md-6">
+            <label for="admin_id" style="font-weight:600;">Admin Name</label>
+            <select id="admin_id" name="brand_id" class="form-control">
+              <option value="">Select Admin</option>
+              @foreach($admins as $admin)
+                <option value="{{ $admin->id }}">{{ $admin->user->first_name }}</option>
+              @endforeach
+            </select>
+          </div>
+        </div>  --}}
+
+
+        <input type="text" name="admin_id" id="admin_id" value="{{ $id }}" class="form-control form-control-solid" hidden/>
+
         <div class="form-group mt-3">
           <label for="image_path" style="font-weight:600;">Product Image</label>
-          <input type="file" id="image_path" name="image_path" class="form-control"  accept="image/*">
+          <input type="file" id="image_path" name="image_path" class="form-control"  accept="image/*" >
           <small class="text-muted">JPG/PNG/WebP — Max 2MB.</small>
         </div>
       </div>
 
       <div class="card-footer d-flex justify-content-between align-items-center">
-        <a href="{{ route('cms.products.index') }}" class="btn btn-light" style="border:1px solid var(--soft-line); border-radius:10px;">
+        <a href="{{ route('cms.indexProduct' , $id) }}" class="btn btn-light" style="border:1px solid var(--soft-line); border-radius:10px;">
           <i class="fas fa-arrow-left"></i> Back
         </a>
         <button type="button" onclick="performStore()" class="btn btn-glow-pink">
@@ -176,7 +190,7 @@
         formData.append('is_active', document.getElementById('is_active').value);
         formData.append('category_id', document.getElementById('category_id').value);
         formData.append('brand_id', document.getElementById('brand_id').value);
-
+        formData.append('admin_id', document.getElementById('admin_id').value);
         formData.append('image_path',document.getElementById('image_path').files[0])
 
 

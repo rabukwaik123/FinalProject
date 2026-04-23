@@ -264,7 +264,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4 glow-sidebar">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="{{ asset('cms\dist\img\GlowShopLogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{ asset('cms/dist/img/GlowShopLogo.png') }}" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Glow Beauty Shop</span>
     </a>
 
@@ -273,7 +273,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{ asset('cms\dist\img\GlowShopLogo.png') }}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{ asset('cms/dist/img/GlowShopLogo.png') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">Admin Panel</a>
@@ -301,14 +301,6 @@
       <a href="{{ route('cms.dashboard') }}" class="nav-link">
         <i class="nav-icon fas fa-chart-line"></i>
         <p>DashBoard</p>
-      </a>
-    </li>
-
-        {{-- Admins --}}
-    <li class="nav-item">
-      <a href="{{ route('cms.admins.index') }}" class="nav-link">
-        <i class="nav-icon fas fa-user"></i>
-        <p>Admins</p>
       </a>
     </li>
 
@@ -357,6 +349,14 @@
     </li>
 
     <li class="nav-header">Users</li>
+
+            {{-- Admins --}}
+    <li class="nav-item">
+      <a href="{{ route('cms.admins.index') }}" class="nav-link">
+        <i class="nav-icon fas fa-user"></i>
+        <p>Admins</p>
+      </a>
+    </li>
 
     {{-- Customers --}}
     <li class="nav-item">
