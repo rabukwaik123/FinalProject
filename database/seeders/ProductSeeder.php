@@ -21,7 +21,7 @@ class ProductSeeder extends Seeder
         $admins = Admin::pluck('id')->toArray();
         $images = [
             'cms/dist/img/product/product1.jpg',
-            'cms/dist/img/product/product2.ppg',
+            'cms/dist/img/product/product2.png',
             'cms/dist/img/product/product3.jpg',
             'cms/dist/img/product/product4.jpg',
             'cms/dist/img/product/product5.jpg',
