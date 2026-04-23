@@ -26,22 +26,18 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
-         // Decode items
-    $items = json_decode($request->items, true);
+       $items = json_decode($request->items, true);
 
-    // Validation
     $validator = Validator::make([
         'cart_status' => $request->cart_status,
         'customer_id' => $request->customer_id,
         'items'       => $items,
     ], [
-
-        'cart_status'          => 'required|in:active,ordered,cancelled',
-        'cart_status'          => 'required|in:active,checked_out,abandoned',
-        'customer_id'          => 'required|unique|exists:customers,id',
-        'items'                => 'required|array|min:1',
-        'items.*.product_id'   => 'required|exists:products,id',
-        'items.*.quantity'     => 'required|integer|min:1',
+        'cart_status'        => 'required|in:active,ordered,cancelled',
+        'customer_id'        => 'required|exists:customers,id',
+        'items'              => 'required|array|min:1',
+        'items.*.product_id' => 'required|exists:products,id',
+        'items.*.quantity'   => 'required|integer|min:1',
     ]);
 
     if ($validator->fails()) {
@@ -51,10 +47,19 @@ class CartController extends Controller
         ], 400);
     }
 
+    //  Check if customer already has a cart
+    $existingCart = Cart::where('customer_id', $request->customer_id)->first();
+    if ($existingCart) {
+        return response()->json([
+            'icon'  => 'error',
+            'title' => 'This customer already has a cart!',
+        ], 400);
+    }
+
     // Create the cart
     $cart = Cart::create([
-        'cart_status'  => $request->cart_status,
-        'customer_id'  => $request->customer_id, // matches your DB column name
+        'cart_status' => $request->cart_status,
+        'customer_id' => $request->customer_id,
     ]);
 
     // Create cart items
@@ -62,17 +67,18 @@ class CartController extends Controller
         $product = Product::find($item['product_id']);
         if (!$product) continue;
 
-        $cartItem = new CartItem();
-        $cartItem->cart_id    = $cart->id;
-        $cartItem->product_id = $product->id;
+        $cartItem              = new CartItem();
+        $cartItem->cart_id     = $cart->id;
+        $cartItem->product_id  = $product->id;
         $cartItem->quantity    = $item['quantity'];
         $cartItem->total_price = $product->price * $item['quantity'];
         $cartItem->save();
     }
 
     return response()->json([
-        'icon'  => 'success',
-        'title' => 'Cart created successfully',
+        'icon'     => 'success',
+        'title'    => 'Cart created successfully',
+        'redirect' => route('cms.carts.index'),
     ]);
     }
 
