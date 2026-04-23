@@ -130,8 +130,8 @@
             </div>
           </div>
 
-          <a href="{{ route('cms.categories.create') }}" class="btn btn-glow-pink btn-sm">
-            <i class="fas fa-plus"></i> Add new category
+            <a href="{{ route('cms.categories.index') }}" class="btn btn-glow-pink btn-sm">
+            <i class="fas fa-arrow-left"></i> Back
           </a>
             <a href="{{ route('cms.categories_forceAll') }}" class="btn btn-danger btn-sm">
              Fresh

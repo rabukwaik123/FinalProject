@@ -49,8 +49,8 @@ class CategoryController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('cms/dist/img/category'), $imageName);
-                $categories->image_path = 'cms/dist/img/category' . $imageName;
+                $image->move(public_path('cms/dist/img/category/'), $imageName);
+                $categories->image_path = 'cms/dist/img/category/' . $imageName;
             }
 
             $issaved = $categories->save();
@@ -102,8 +102,8 @@ class CategoryController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('cms/dist/img/category'), $imageName);
-                $categories->image_path = 'cms/dist/img/category' . $imageName;
+                $image->move(public_path('cms/dist/img/category/'), $imageName);
+                $categories->image_path = 'cms/dist/img/category/' . $imageName;
             }
 
             $isupdated = $categories->save();

@@ -23,6 +23,7 @@ Route::prefix('cms/admin')->name('cms.')->group(function(){
     Route::post('categories_update/{id}',[CategoryController::class ,'update'])->name('categories_update');
     Route::get('categories_trashed',[CategoryController::class ,'trashed'])->name('categories_trashed');
     Route::get('categories_restore/{id}',[CategoryController::class ,'restore'])->name('categories_restore');
+    Route::get('categories_force/{id}', [CustomerController::class, 'force'])->name('categories_force');
     Route::get('force',[CategoryController::class ,'forceAll'])->name('categories_forceAll');
 
     Route::resource('brands', BrandController::class);

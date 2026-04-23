@@ -80,8 +80,8 @@ class ProductController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('cms/dist/img/product'), $imageName);
-                $product->image_path = 'cms/dist/img/product' . $imageName;
+                $image->move(public_path('cms/dist/img/product/'), $imageName);
+                $product->image_path = 'cms/dist/img/product/' . $imageName;
             }
             $product->save();
 
@@ -149,8 +149,8 @@ class ProductController extends Controller
             if ($request->hasFile('image_path')) {
                 $image = $request->file('image_path');
                 $imageName = time().'image.'.$image->getClientOriginalExtension();
-                $image->move(public_path('cms/dist/img/product'), $imageName);
-                $product->image_path = 'cms/dist/img/product' . $imageName;
+                $image->move(public_path('cms/dist/img/product/'), $imageName);
+                $product->image_path = 'cms/dist/img/product/' . $imageName;
             }
 
                 $product->save();
