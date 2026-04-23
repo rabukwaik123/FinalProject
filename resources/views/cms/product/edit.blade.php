@@ -196,7 +196,7 @@
         formData.append('is_active', document.getElementById('is_active').value);
         const imageInput = document.getElementById('image_path');
     if (imageInput.files.length > 0) {
-        formData.append('image_path', imageInput.files[0]); // ✅ only if file exists
+        formData.append('image_path', imageInput.files[0]); // 
     }
 
         storeRoute('/cms/admin/products_update/' + id , formData)
