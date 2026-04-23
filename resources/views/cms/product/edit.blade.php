@@ -138,7 +138,7 @@
         </div>  --}}
 
 
-        <input type="text" name="admin_id" id="admin_id" value="{{ $id }}" class="form-control form-control-solid" hidden/>
+        <input type="text" name="admin_id" id="admin_id" value="{{ $products->admin_id }}" class="form-control form-control-solid" hidden/>
 
         <div class="form-group mt-3">
         <label for="is_active" style="font-weight:600;">is_active</label>
@@ -194,7 +194,11 @@
         formData.append('brand_id', document.getElementById('brand_id').value);
         formData.append('admin_id', document.getElementById('admin_id').value);
         formData.append('is_active', document.getElementById('is_active').value);
-        formData.append('image_path',document.getElementById('image_path').files[0])
+        const imageInput = document.getElementById('image_path');
+    if (imageInput.files.length > 0) {
+        formData.append('image_path', imageInput.files[0]); // ✅ only if file exists
+    }
+
         storeRoute('/cms/admin/products_update/' + id , formData)
     }
 </script>

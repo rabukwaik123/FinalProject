@@ -35,7 +35,7 @@ class CartController extends Controller
         'customer_id' => $request->customer_id,
         'items'       => $items,
     ], [
-        'cart_status'          => 'required|in:active,checked_out,abandoned',
+        'cart_status'          => 'required|in:active,ordered,cancelled',
         'customer_id'          => 'required|exists:customers,id',
         'items'                => 'required|array|min:1',
         'items.*.product_id'   => 'required|exists:products,id',
