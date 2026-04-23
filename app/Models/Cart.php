@@ -13,10 +13,10 @@ class Cart extends Model
 
     protected $fillable = [
         'cart_status',
-        'customers_id',
+        'customer_id',
     ];
 
-    public function customer(){
+    public function customer() {
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 

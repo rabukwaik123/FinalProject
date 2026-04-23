@@ -16,8 +16,8 @@ class Customer extends Model
         'password',
     ];
 
-    public function carts(){
-        return $this->hasMany(Cart::class, 'customer_id');
+    public function cart() {
+        return $this->hasOne(Cart::class, 'customer_id');
     }
 
      public function user(){
