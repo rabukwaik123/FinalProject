@@ -15,12 +15,14 @@ class CartSeeder extends Seeder
      */
     public function run(): void
     {
-        $customers = Customer::pluck('id')->toArray();
+
+        $customers = Customer::all();
         $products = Product::all();
-        
-        for ($i = 1; $i <= 10; $i++) {
+
+        foreach ($customers as $customer) {
+
             $cart = Cart::create([
-                'customer_id' => $customers[array_rand($customers)],
+                'customer_id' => $customer->id,
                 'cart_status' => collect(['active', 'ordered', 'cancelled'])->random(),
             ]);
 
@@ -35,8 +37,7 @@ class CartSeeder extends Seeder
                     'quantity' => $quantity,
                     'total_price' => $product->price * $quantity,
                 ]);
-            }
-        }
+            }}
     }
 }
 
