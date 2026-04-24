@@ -223,12 +223,12 @@
                       <i class="fas fa-eye"></i>
                     </a>
 
-                    <a href="{{ route('cms.contact-messages.edit', $message->id) }}"
+                    {{-- <a href="{{ route('cms.contact-messages.edit', $message->id) }}"
                        class="action-btn action-edit"
                        data-toggle="tooltip"
                        title="Edit">
                       <i class="fas fa-pen"></i>
-                    </a>
+                    </a> --}}
 
                     <button type="button"
                             onclick="performDestroy({{ $message->id }}, this)"

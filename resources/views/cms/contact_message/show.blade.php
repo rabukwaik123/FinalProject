@@ -19,9 +19,9 @@
     <div class="card card-outline card-shift" style="border-top:3px solid #17a2b8;">
         <div class="card-header d-flex justify-content-between align-items-center">
             <h3 class="card-title">Viewing Message Details</h3>
-            <div class="ml-auto">
+            {{-- <div class="ml-auto">
                 <a href="{{ route('cms.contact-messages.edit', $contactMessage->id) }}" class="btn btn-sm btn-outline-warning rounded-pill">Edit Message</a>
-            </div>
+            </div> --}}
         </div>
         <div class="card-body">
             <div class="row mb-4">
